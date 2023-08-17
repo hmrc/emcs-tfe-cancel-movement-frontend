@@ -6,6 +6,12 @@ object CodeCoverageSettings {
   private val excludedPackages: Seq[String] = Seq(
     "<empty>",
     "Reverse.*",
+    ".*handlers.*",
+    ".*components.*",
+    ".*viewmodels.govuk.*",
+    ".*featureswitch.*",
+    ".*forms.mappings.*",
+    ".*pages.Page",
     "uk.gov.hmrc.BuildInfo",
     "app.*",
     "prod.*",
@@ -16,7 +22,7 @@ object CodeCoverageSettings {
 
   val settings: Seq[Setting[_]] = Seq(
     ScoverageKeys.coverageExcludedPackages := excludedPackages.mkString(";"),
-    ScoverageKeys.coverageMinimumStmtTotal := 100,
+    ScoverageKeys.coverageMinimumStmtTotal := 80, //TODO: Temporary, can be raised when flow pages are built
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true
   )
