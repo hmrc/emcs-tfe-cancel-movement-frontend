@@ -96,3 +96,10 @@ journeyRecovery.p3 = You can also choose to
 journeyRecovery.p3.viewAccountLink = view all your account information
 journeyRecovery.p3.or = or
 journeyRecovery.p3.signOutLink = sign out
+
+cancelMovement.title = Cancel this movement
+cancelMovement.caption = Cancellation for {0}
+cancelMovement.paragraph1 = You can choose to cancel a movement before the goods have left your premises.
+cancelMovement.paragraph2 = By cancelling this movement, you will also permanently delete its:
+cancelMovement.bullet1 = electronic administrative document (eAD)
+cancelMovement.bullet2 = administrative reference code (ARC)

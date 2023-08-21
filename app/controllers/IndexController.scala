@@ -38,28 +38,22 @@ class IndexController @Inject()(override val messagesApi: MessagesApi,
                                ) extends BaseController with Logging {
 
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
-    (authAction(ern, arc) andThen withMovement.fromCache(arc) andThen getData).async { implicit request =>
-      request.userAnswers match {
+    (authAction(ern, arc) andThen withMovement.fromCache(arc) andThen getData).async {
+      implicit request =>
+        request.userAnswers match {
+          case Some(answers) if answers.data.fields.isEmpty =>
+            initialiseAndRedirect(UserAnswers(request.ern, request.arc))
 
-        // TODO: Remove this case match when we have the 1st controller to redirect to
-        case Some(answers) if answers.data.fields.isEmpty =>
-          Future.successful(
-            Ok(view())
-          )
+          case Some(answers) if answers.data.fields.nonEmpty =>
+            Future.successful(Ok(view()))
 
-//        case Some(answers) if answers.data.fields.nonEmpty =>
-//          Future.successful(
-//            Redirect(routes.CancelMovement.onPageLoad(ern, arc))
-//          )
-
-        case _ =>
-          initialiseAndRedirect(UserAnswers(request.ern, request.arc))
-      }
+          case _ =>
+            initialiseAndRedirect(UserAnswers(request.ern, request.arc))
+        }
     }
 
   private def initialiseAndRedirect(answers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] =
     userAnswersService.set(answers).map { _ =>
-      Redirect(routes.IndexController.onPageLoad(answers.ern, answers.arc))
+      Redirect(routes.CancelMovementController.onPageLoad(answers.ern, answers.arc))
     }
-
 }
