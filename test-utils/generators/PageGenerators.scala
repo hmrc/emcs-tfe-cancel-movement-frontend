@@ -16,7 +16,13 @@
 
 package generators
 
+import org.scalacheck.Arbitrary
+import pages._
+
 trait PageGenerators {
+
+  implicit lazy val arbitraryCancelReasonPage: Arbitrary[CancelReasonPage.type] =
+    Arbitrary(CancelReasonPage)
 
 
 }

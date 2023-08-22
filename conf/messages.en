@@ -79,7 +79,7 @@ timeout.timedOut.title = For your security we signed you out
 timeout.timedOut.heading = For your security we signed you out
 timeout.timedOut.p1 = We did not save your answers.
 
-arc.subHeading = Explanation for delay to {0}
+arc.subHeading = Cancellation for {0}
 
 error.browser.title.prefix = Error:
 
@@ -98,8 +98,16 @@ journeyRecovery.p3.or = or
 journeyRecovery.p3.signOutLink = sign out
 
 cancelMovement.title = Cancel this movement
-cancelMovement.caption = Cancellation for {0}
 cancelMovement.paragraph1 = You can choose to cancel a movement before the goods have left your premises.
 cancelMovement.paragraph2 = By cancelling this movement, you will also permanently delete its:
 cancelMovement.bullet1 = electronic administrative document (eAD)
 cancelMovement.bullet2 = administrative reference code (ARC)
+
+cancelReason.title = Why are you cancelling this movement?
+cancelReason.heading = Why are you cancelling this movement?
+cancelReason.transactionInterrupted = Commercial transaction interrupted
+cancelReason.duplicate = Duplicate electronic administrative document (eAD)
+cancelReason.differentDispatchDate = Goods were not dispatched on the date given in the eAD
+cancelReason.containsError = The eAD contains an error
+cancelReason.other = Other
+cancelReason.error.required = Select why you are cancelling this movement

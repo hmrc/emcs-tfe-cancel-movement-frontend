@@ -19,6 +19,7 @@ package generators
 import fixtures.BaseFixtures
 import models.UserAnswers
 import org.scalacheck.{Arbitrary, Gen}
+import org.scalacheck.Arbitrary._
 import org.scalatest.TryValues
 import pages._
 import play.api.libs.json.{JsValue, Json}
@@ -27,6 +28,7 @@ trait UserAnswersGenerator extends TryValues with BaseFixtures {
   self: Generators =>
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
+    arbitrary[(CancelReasonPage.type, JsValue)] ::
     Nil
 
   implicit lazy val arbitraryUserData: Arbitrary[UserAnswers] = {

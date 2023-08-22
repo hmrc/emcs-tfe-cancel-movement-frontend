@@ -16,7 +16,15 @@
 
 package generators
 
+import models._
+import org.scalacheck.{Arbitrary, Gen}
+
 trait ModelGenerators {
+
+  implicit lazy val arbitraryCancelReason: Arbitrary[CancelReason] =
+    Arbitrary {
+      Gen.oneOf(CancelReason.values.toSeq)
+    }
 
 
 
