@@ -17,5 +17,8 @@ GET        /account/timeout                             controllers.TimeoutContr
 
 GET        /trader/:ern/movement/:arc                                   controllers.IndexController.onPageLoad(ern: String, arc: String)
 
+GET        /trader/:ern/movement/:arc/cancel-movement                   controllers.CancelMovementController.onPageLoad(ern: String, arc: String)
+POST       /trader/:ern/movement/:arc/cancel-movement                   controllers.CancelMovementController.onSubmit(ern: String, arc: String)
+
 GET        /trader/:ern/movement/:arc/no-information-delay              controllers.JourneyRecoveryController.onPageLoad(ern: String, arc: String)
 
