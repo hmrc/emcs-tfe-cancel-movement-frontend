@@ -41,12 +41,8 @@ class IndexController @Inject()(override val messagesApi: MessagesApi,
     (authAction(ern, arc) andThen withMovement.fromCache(arc) andThen getData).async {
       implicit request =>
         request.userAnswers match {
-          case Some(answers) if answers.data.fields.isEmpty =>
-            initialiseAndRedirect(UserAnswers(request.ern, request.arc))
-
           case Some(answers) if answers.data.fields.nonEmpty =>
-            Future.successful(Ok(view()))
-
+            Future.successful(Redirect(routes.CancelMovementController.onPageLoad(answers.ern, answers.arc)))
           case _ =>
             initialiseAndRedirect(UserAnswers(request.ern, request.arc))
         }
