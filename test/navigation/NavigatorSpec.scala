@@ -41,10 +41,9 @@ class NavigatorSpec extends SpecBase {
 
         s"when Cancel Reason is $Other" - {
 
-          //TODO: Update as part of future story to go to the GiveMoreInformation page
-          "to the UnderConstruction page" in {
+          "to the MoreInformation page" in {
             navigator.nextPage(CancelReasonPage, NormalMode, emptyUserAnswers.set(CancelReasonPage, Other)) mustBe
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+              routes.MoreInformationController.onPageLoad(testErn, testArc, NormalMode)
           }
         }
 
@@ -61,10 +60,9 @@ class NavigatorSpec extends SpecBase {
 
         s"when answer is Yes (true)" - {
 
-          //TODO: Update as part of future story to go to the GiveMoreInformation page
-          "to the UnderConstruction page" in {
+          "to the MoreInformation page" in {
             navigator.nextPage(ChooseGiveMoreInformationPage, NormalMode, emptyUserAnswers.set(ChooseGiveMoreInformationPage, true)) mustBe
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+              routes.MoreInformationController.onPageLoad(testErn, testArc, NormalMode)
           }
         }
 
