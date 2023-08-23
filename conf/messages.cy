@@ -111,3 +111,7 @@ cancelReason.differentDispatchDate = Goods were not dispatched on the date given
 cancelReason.containsError = The eAD contains an error
 cancelReason.other = Other
 cancelReason.error.required = Select why you are cancelling this movement
+
+chooseGiveMoreInformation.title = Do you want to give more information about why you are cancelling this movement?
+chooseGiveMoreInformation.heading = Do you want to give more information about why you are cancelling this movement?
+chooseGiveMoreInformation.error.required = Select if you want to give more information about why you are cancelling this movement

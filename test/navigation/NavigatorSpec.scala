@@ -18,6 +18,7 @@ package navigation
 
 import base.SpecBase
 import controllers.routes
+import models.CancelReason.{ContainsError, Other}
 import models._
 import pages._
 
@@ -38,13 +39,44 @@ class NavigatorSpec extends SpecBase {
 
       "must go from CancelReasonPage" - {
 
-        //TODO: Update as part of future story to route based on reason selected to the onward route
-        "to the UnderConstruction page" in {
-          navigator.nextPage(CancelReasonPage, NormalMode, emptyUserAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        s"when Cancel Reason is $Other" - {
+
+          //TODO: Update as part of future story to go to the GiveMoreInformation page
+          "to the UnderConstruction page" in {
+            navigator.nextPage(CancelReasonPage, NormalMode, emptyUserAnswers.set(CancelReasonPage, Other)) mustBe
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+        }
+
+        s"when Cancel Reason is NOT $Other" - {
+
+          "to the ChooseGiveMoreInformationItem page" in {
+            navigator.nextPage(CancelReasonPage, NormalMode, emptyUserAnswers.set(CancelReasonPage, ContainsError)) mustBe
+              routes.ChooseGiveMoreInformationController.onPageLoad(testErn, testArc, NormalMode)
+          }
         }
       }
 
+      "must go from ChooseGiveMoreInformation" - {
+
+        s"when answer is Yes (true)" - {
+
+          //TODO: Update as part of future story to go to the GiveMoreInformation page
+          "to the UnderConstruction page" in {
+            navigator.nextPage(ChooseGiveMoreInformationPage, NormalMode, emptyUserAnswers.set(ChooseGiveMoreInformationPage, true)) mustBe
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+        }
+
+        s"when answer is No (false)" - {
+
+          //TODO: Update as part of future story to go to CheckAnswers page
+          "to the UnderConstruction page" in {
+            navigator.nextPage(ChooseGiveMoreInformationPage, NormalMode, emptyUserAnswers.set(ChooseGiveMoreInformationPage, false)) mustBe
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+        }
+      }
     }
 
     "in Check mode" - {

@@ -17,9 +17,9 @@
 package pages
 
 import models.CancelReason
-import pages.behaviour.PageBehaviours
+import pages.behaviours.PageBehaviours
 
-class CancelReasonSpec extends PageBehaviours {
+class CancelReasonPageSpec extends PageBehaviours {
 
   "CancelReasonPage" - {
 

@@ -16,16 +16,14 @@
 
 package controllers
 
+import models.NormalMode
 import navigation.Navigator
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
 import views.html.CancelMovementView
-import controllers.actions.{AuthAction, DataRetrievalAction, MovementAction}
-import models.NormalMode
 
 import javax.inject.Inject
-import scala.concurrent.Future
 
 class CancelMovementController @Inject()(override val messagesApi: MessagesApi,
                                          override val navigator: Navigator,

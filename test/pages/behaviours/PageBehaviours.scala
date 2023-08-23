@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pages.behaviour
+package pages.behaviours
 
 import generators.Generators
 import models.UserAnswers
