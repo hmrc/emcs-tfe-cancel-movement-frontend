@@ -25,26 +25,22 @@ object CancelMovementMessages {
     val heading: String
     val paragraph1: String
     val paragraph2: String
-    val bullet1: String
-    val bullet2: String
+    val paragraph3: String
   }
 
   object English extends ViewMessages with BaseEnglish {
     override val heading = "Cancel this movement"
     override val title = titleHelper(heading)
     override val paragraph1 = "You can choose to cancel a movement before the goods have left your premises."
-    override val paragraph2 = "By cancelling this movement, you will also permanently delete its:"
-    override val bullet1 = "electronic administrative document (eAD)"
-    override val bullet2 = "administrative reference code (ARC)"
-
+    override val paragraph2 = "When you cancel a movement, its electronic administrative document (eAD) and administrative reference code (ARC) are saved and marked as cancelled."
+    override val paragraph3 = "If you still want to move the goods, you will need to create a new movement."
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
     override val heading = "Cancel this movement"
     override val title = titleHelper(heading)
     override val paragraph1 = "You can choose to cancel a movement before the goods have left your premises."
-    override val paragraph2 = "By cancelling this movement, you will also permanently delete its:"
-    override val bullet1 = "electronic administrative document (eAD)"
-    override val bullet2 = "administrative reference code (ARC)"
+    override val paragraph2 = "When you cancel a movement, its electronic administrative document (eAD) and administrative reference code (ARC) are saved and marked as cancelled."
+    override val paragraph3 = "If you still want to move the goods, you will need to create a new movement."
   }
 }
