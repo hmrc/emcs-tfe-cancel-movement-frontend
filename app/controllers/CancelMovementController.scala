@@ -22,6 +22,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
 import views.html.CancelMovementView
 import controllers.actions.{AuthAction, DataRetrievalAction, MovementAction}
+import models.NormalMode
 
 import javax.inject.Inject
 import scala.concurrent.Future
@@ -37,7 +38,7 @@ class CancelMovementController @Inject()(override val messagesApi: MessagesApi,
     Ok(view(arc, controllers.routes.CancelMovementController.onSubmit(ern, arc)))
   }
 
-  def onSubmit(ern: String, arc: String): Action[AnyContent] = Action { implicit request =>
-    Redirect(testOnly.controllers.routes.UnderConstructionController.onPageLoad())
+  def onSubmit(ern: String, arc: String): Action[AnyContent] = Action {
+    Redirect(controllers.routes.CancelReasonController.onPageLoad(ern, arc, NormalMode))
   }
 }

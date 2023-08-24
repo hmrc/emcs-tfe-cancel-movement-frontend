@@ -26,6 +26,8 @@ import javax.inject.Inject
 class Navigator @Inject()() extends BaseNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+    case CancelReasonPage => _ =>
+      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }

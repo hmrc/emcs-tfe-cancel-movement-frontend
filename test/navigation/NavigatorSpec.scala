@@ -36,6 +36,15 @@ class NavigatorSpec extends SpecBase {
           routes.IndexController.onPageLoad(testErn, testArc)
       }
 
+      "must go from CancelReasonPage" - {
+
+        //TODO: Update as part of future story to route based on reason selected to the onward route
+        "to the UnderConstruction page" in {
+          navigator.nextPage(CancelReasonPage, NormalMode, emptyUserAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+      }
+
     }
 
     "in Check mode" - {

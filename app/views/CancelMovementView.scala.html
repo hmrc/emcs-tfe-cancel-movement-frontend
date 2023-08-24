@@ -28,7 +28,7 @@
 
 @layout(pageTitle = titleNoForm(messages("cancelMovement.title"))) {
 
-    @h1("cancelMovement.title", Some(messages("cancelMovement.caption", arc)))
+    @h1("cancelMovement.title", Some(messages("arc.subHeading", arc)))
 
     @p() {
         @messages("cancelMovement.paragraph1")
@@ -49,3 +49,6 @@
 
 }
 
+@{
+    //$COVERAGE-OFF$
+}

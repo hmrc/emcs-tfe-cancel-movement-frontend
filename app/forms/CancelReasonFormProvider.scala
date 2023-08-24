@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import models._
-import org.scalacheck.Arbitrary
-import org.scalacheck.Arbitrary._
-import pages._
-import play.api.libs.json.{JsValue, Json}
+import javax.inject.Inject
 
-trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.CancelReason
 
-  implicit lazy val arbitraryCancelReasonUserAnswersEntry: Arbitrary[(CancelReasonPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[CancelReasonPage.type]
-        value <- arbitrary[CancelReason].map(Json.toJson(_))
-      } yield (page, value)
-    }
+class CancelReasonFormProvider @Inject() extends Mappings {
 
+  def apply(): Form[CancelReason] =
+    Form(
+      "value" -> enumerable[CancelReason]("cancelReason.error.required")
+    )
 }

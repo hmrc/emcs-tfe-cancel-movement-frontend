@@ -18,14 +18,13 @@ package controllers
 
 import base.SpecBase
 import mocks.services.MockUserAnswersService
+import models.NormalMode
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{GET, POST, contentAsString, defaultAwaitTimeout, redirectLocation, route, running, status, writeableOf_AnyContentAsEmpty}
 import services.UserAnswersService
 import views.html.CancelMovementView
-
-import scala.concurrent.Future
 
 class CancelMovementControllerSpec extends SpecBase with MockUserAnswersService {
 
@@ -66,7 +65,7 @@ class CancelMovementControllerSpec extends SpecBase with MockUserAnswersService 
           val result = route(application, request).value
 
           status(result) mustEqual SEE_OTHER
-          redirectLocation(result) mustBe Some(testOnly.controllers.routes.UnderConstructionController.onPageLoad().url)
+          redirectLocation(result) mustBe Some(routes.CancelReasonController.onPageLoad(testErn, testArc, NormalMode).url)
         }
       }
     }

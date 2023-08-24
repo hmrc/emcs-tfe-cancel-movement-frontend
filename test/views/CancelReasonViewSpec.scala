@@ -17,41 +17,44 @@
 package views
 
 import base.ViewSpecBase
-import fixtures.messages.CancelMovementMessages
+import fixtures.messages.CancelReasonMessages
+import forms.CancelReasonFormProvider
 import models.requests.DataRequest
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import views.html.CancelMovementView
+import views.html.CancelReasonView
 
-class CancelMovementViewSpec extends ViewSpecBase with ViewBehaviours {
+class CancelReasonViewSpec extends ViewSpecBase with ViewBehaviours {
 
   object Selectors extends BaseSelectors
 
-  "CancelMovementView" - {
+  "CancelReasonView" - {
 
-    Seq(CancelMovementMessages.English, CancelMovementMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(CancelReasonMessages.English, CancelReasonMessages.Welsh).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 
         implicit val msgs: Messages = messages(app, messagesForLanguage.lang)
         implicit val request: DataRequest[AnyContentAsEmpty.type] = dataRequest(FakeRequest(), emptyUserAnswers)
 
-        val view = app.injector.instanceOf[CancelMovementView]
+        val view = app.injector.instanceOf[CancelReasonView]
+        val form = app.injector.instanceOf[CancelReasonFormProvider].apply()
 
-        implicit val doc: Document = Jsoup.parse(view(testArc, testOnwardRoute).toString())
+        implicit val doc: Document = Jsoup.parse(view(form, testOnwardRoute).toString())
 
         // scalastyle:off magic.number
         behave like pageWithExpectedElementsAndMessages(Seq(
           Selectors.title -> messagesForLanguage.title,
           Selectors.h1 -> messagesForLanguage.heading,
           Selectors.h2(1) -> messagesForLanguage.arcSubheading(testArc),
-          Selectors.p(1) -> messagesForLanguage.paragraph1,
-          Selectors.p(2) -> messagesForLanguage.paragraph2,
-          Selectors.bullet(1) -> messagesForLanguage.bullet1,
-          Selectors.bullet(2) -> messagesForLanguage.bullet2,
+          Selectors.radioButton(1) -> messagesForLanguage.radio1,
+          Selectors.radioButton(2) -> messagesForLanguage.radio2,
+          Selectors.radioButton(3) -> messagesForLanguage.radio3,
+          Selectors.radioButton(4) -> messagesForLanguage.radio4,
+          Selectors.radioButton(5) -> messagesForLanguage.radio5,
           Selectors.button -> messagesForLanguage.continue
         ))
       }
