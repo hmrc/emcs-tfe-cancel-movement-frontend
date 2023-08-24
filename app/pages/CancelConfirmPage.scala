@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package navigation
+package pages
 
-import config.AppConfig
-import models.{Mode, UserAnswers}
-import pages._
-import play.api.mvc.Call
+import play.api.libs.json.JsPath
 
-class FakeNavigator(desiredRoute: Call, appConfig: AppConfig) extends Navigator(appConfig) {
+case object CancelConfirmPage extends QuestionPage[Boolean] {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
-    desiredRoute
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "cancelConfirm"
 }

@@ -18,6 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.CancelReasonFormProvider
+import mocks.MockAppConfig
 import mocks.services.MockUserAnswersService
 import models.{CancelReason, NormalMode}
 import navigation.{FakeNavigator, Navigator}
@@ -31,7 +32,7 @@ import views.html.CancelReasonView
 
 import scala.concurrent.Future
 
-class CancelReasonControllerSpec extends SpecBase with MockUserAnswersService {
+class CancelReasonControllerSpec extends SpecBase with MockUserAnswersService with MockAppConfig {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -84,7 +85,7 @@ class CancelReasonControllerSpec extends SpecBase with MockUserAnswersService {
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
             bind[UserAnswersService].toInstance(mockUserAnswersService)
           )
           .build()
