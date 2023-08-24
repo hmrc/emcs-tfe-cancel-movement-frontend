@@ -114,6 +114,28 @@ class NavigatorSpec extends SpecBase with MockAppConfig {
           }
         }
       }
+
+      "must go from CancelConfirm page" - {
+
+        "when answer is Yes (true)" - {
+
+          //TODO: Update as part of future story to go to the confirmation page
+          "to the confirmation page" in {
+            navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, true)) mustBe
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+        }
+
+        "when answer is No (false)" - {
+
+          "to the at a glance page" in {
+            MockAppConfig.emcsTfeHomeUrl(Some(testErn))
+
+            navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, false)) mustBe
+              Call("GET", "http://localhost:8310/emcs-tfe")
+          }
+        }
+      }
     }
 
     "in Check mode" - {
