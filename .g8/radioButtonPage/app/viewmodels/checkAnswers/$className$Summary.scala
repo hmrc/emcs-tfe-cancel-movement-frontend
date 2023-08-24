@@ -23,7 +23,7 @@ object $className$Summary  {
         )
 
         SummaryListRowViewModel(
-          key     = "$className;format="decap"$.checkYourAnswersLabel",
+          key     = "$className;format="decap"$.checkYourAnswers.label",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.$className$Controller.onPageLoad(answers.ern, answers.arc, CheckMode).url, $className$Page)

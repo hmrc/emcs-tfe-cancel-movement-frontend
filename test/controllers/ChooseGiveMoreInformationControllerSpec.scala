@@ -21,7 +21,7 @@ import forms.ChooseGiveMoreInformationFormProvider
 import mocks.services.MockUserAnswersService
 import models.NormalMode
 import navigation.{FakeNavigator, Navigator}
-import pages.ChooseGiveMoreInformationPage
+import pages.{ChooseGiveMoreInformationPage, MoreInformationPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -77,9 +77,9 @@ class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnsw
       }
     }
 
-    "must redirect to the next page when valid data is submitted" in {
+    "must redirect to the next page when valid data is submitted (true)" in {
 
-      MockUserAnswersService.set().returns(Future.successful(emptyUserAnswers))
+      MockUserAnswersService.set().returns(Future.successful(emptyUserAnswers.set(ChooseGiveMoreInformationPage, true)))
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -93,6 +93,36 @@ class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnsw
         val request =
           FakeRequest(POST, chooseGiveMoreInformationRoute)
             .withFormUrlEncodedBody(("value", "true"))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onwardRoute.url
+      }
+    }
+
+    "must redirect to the next page when valid data is submitted (false) AND delete any existing data in the MoreInformation page" in {
+
+      val answersBefore = emptyUserAnswers
+        .set(ChooseGiveMoreInformationPage, true)
+        .set(MoreInformationPage, Some("info"))
+
+      val answerAfter = emptyUserAnswers.set(ChooseGiveMoreInformationPage, false)
+
+      MockUserAnswersService.set(answerAfter).returns(Future.successful(answerAfter))
+
+      val application =
+        applicationBuilder(userAnswers = Some(answersBefore))
+          .overrides(
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[UserAnswersService].toInstance(mockUserAnswersService)
+          )
+          .build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, chooseGiveMoreInformationRoute)
+            .withFormUrlEncodedBody(("value", "false"))
 
         val result = route(application, request).value
 

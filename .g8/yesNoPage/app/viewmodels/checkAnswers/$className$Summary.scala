@@ -17,7 +17,7 @@ object $className$Summary  {
         val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "$className;format="decap"$.checkYourAnswersLabel",
+          key     = "$className;format="decap"$.checkYourAnswers.label",
           value   = ValueViewModel(value),
           actions = Seq(
             ActionItemViewModel("site.change", routes.$className$Controller.onPageLoad(answers.ern, answers.arc, CheckMode).url, $className$Page)

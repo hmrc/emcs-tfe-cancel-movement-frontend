@@ -19,7 +19,7 @@ object $className$Summary  {
         val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
         SummaryListRowViewModel(
-          key     = "$className;format="decap"$.checkYourAnswersLabel",
+          key     = "$className;format="decap"$.checkYourAnswers.label",
           value   = ValueViewModel(answer.format(dateFormatter)),
           actions = Seq(
             ActionItemViewModel("site.change", routes.$className$Controller.onPageLoad(answers.ern, answers.arc, CheckMode).url, $className$Page)

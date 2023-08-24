@@ -28,6 +28,9 @@ object MoreInformationMessages {
     val errorRequired: String
     val errorXss: String
     val errorCharacter: String
+    val cyaLabel: String
+    val cyaChangeHidden: String
+    val cyaAddInformation: String
   }
 
   object English extends ViewMessages with BaseEnglish {
@@ -38,6 +41,9 @@ object MoreInformationMessages {
     override val errorRequired = "Enter information"
     override val errorXss = "Information must not include < and > and : and ;"
     override val errorCharacter = "Information must contain letters or numbers"
+    override val cyaLabel = "More information about cancelling"
+    override val cyaChangeHidden = "information about cancelling"
+    override val cyaAddInformation = "Give more information about cancelling this movement (optional)"
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
@@ -48,5 +54,8 @@ object MoreInformationMessages {
     override val errorRequired = "Enter information"
     override val errorXss = "Information must not include < and > and : and ;"
     override val errorCharacter = "Information must contain letters or numbers"
+    override val cyaLabel = "More information about cancelling"
+    override val cyaChangeHidden = "information about cancelling"
+    override val cyaAddInformation = "Give more information about cancelling this movement (optional)"
   }
 }
