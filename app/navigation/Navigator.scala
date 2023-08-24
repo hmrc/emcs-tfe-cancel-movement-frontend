@@ -17,6 +17,7 @@
 package navigation
 
 import controllers.routes
+import models.CancelReason.Other
 import models.{Mode, NormalMode, UserAnswers}
 import pages._
 import play.api.mvc.Call
@@ -26,8 +27,22 @@ import javax.inject.Inject
 class Navigator @Inject()() extends BaseNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case CancelReasonPage => _ =>
-      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+    case CancelReasonPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(CancelReasonPage) match {
+        case Some(Other) =>
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        case _ =>
+          routes.ChooseGiveMoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      }
+    case ChooseGiveMoreInformationPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(ChooseGiveMoreInformationPage) match {
+        case Some(true) =>
+          //TODO: Route to GiveMoreInformationPage as part of future story
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        case _ =>
+          //TODO: Route to CheckAnswers as part of future story
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+      }
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }
