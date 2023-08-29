@@ -30,19 +30,21 @@ class Navigator @Inject()() extends BaseNavigator {
     case CancelReasonPage => (userAnswers: UserAnswers) =>
       userAnswers.get(CancelReasonPage) match {
         case Some(Other) =>
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
           routes.ChooseGiveMoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
       }
     case ChooseGiveMoreInformationPage => (userAnswers: UserAnswers) =>
       userAnswers.get(ChooseGiveMoreInformationPage) match {
         case Some(true) =>
-          //TODO: Route to GiveMoreInformationPage as part of future story
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
           //TODO: Route to CheckAnswers as part of future story
           testOnly.controllers.routes.UnderConstructionController.onPageLoad()
       }
+    case MoreInformationPage => _ =>
+      //TODO: Route to CheckAnswers as part of future story
+      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }

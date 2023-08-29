@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,26 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import config.AppConfig
-@import models.requests.DataRequest
+package pages
 
-@this(
-        govukButton: GovukButton,
-        appConfig: AppConfig
-)
+import play.api.libs.json.JsPath
 
-@(primaryKey: String = "site.continue")(implicit messages: Messages, request: Request[_])
+case object MoreInformationPage extends QuestionPage[Option[String]] {
 
-<div class="govuk-button-group">
+  override def path: JsPath = JsPath \ toString
 
-  @govukButton(
-      ButtonViewModel(messages(primaryKey)).preventingDoubleClick()
-  )
-
-</div>
-
-@{
-    //$COVERAGE-OFF$
+  override def toString: String = "moreInformation"
 }

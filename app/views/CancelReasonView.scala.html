@@ -17,12 +17,12 @@
 @import models.requests.DataRequest
 
 @this(
-    layout: templates.Layout,
-    formHelper: FormWithCSRF,
-    govukErrorSummary: GovukErrorSummary,
-    govukRadios: GovukRadios,
-    govukButton: GovukButton,
-    h1: components.h1
+        layout: templates.Layout,
+        formHelper: FormWithCSRF,
+        govukErrorSummary: GovukErrorSummary,
+        govukRadios: GovukRadios,
+        h1: components.h1,
+        continue: components.continue
 )
 
 @(form: Form[_], action: Call)(implicit request: DataRequest[_], messages: Messages)
@@ -43,14 +43,12 @@
             )
         )
 
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-        )
+        @continue()
     }
 }
 
 @heading = {
-    @h1("cancelReason.heading", Some(messages("arc.subHeading", request.arc)), "govuk-fieldset__heading")
+@h1("cancelReason.heading", Some(messages("arc.subHeading", request.arc)), "govuk-fieldset__heading")
 }
 
 @{

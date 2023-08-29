@@ -115,3 +115,11 @@ cancelReason.error.required = Select why you are cancelling this movement
 chooseGiveMoreInformation.title = Do you want to give more information about why you are cancelling this movement?
 chooseGiveMoreInformation.heading = Do you want to give more information about why you are cancelling this movement?
 chooseGiveMoreInformation.error.required = Select if you want to give more information about why you are cancelling this movement
+
+moreInformation.title = Give more information about why you are cancelling this movement
+moreInformation.heading = Give more information about why you are cancelling this movement
+moreInformation.hint.optional = Give information (optional).
+moreInformation.error.length = Information must be 350 characters or less
+moreInformation.error.required = Enter information
+moreInformation.error.xss = Information must not include < and > and : and ;
+moreInformation.error.character = Information must contain letters or numbers
