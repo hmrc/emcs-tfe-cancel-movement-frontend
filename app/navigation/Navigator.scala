@@ -39,19 +39,25 @@ class Navigator @Inject()() extends BaseNavigator {
         case Some(true) =>
           routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
-          //TODO: Route to CheckAnswers as part of future story
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
       }
-    case MoreInformationPage => _ =>
-      //TODO: Route to CheckAnswers as part of future story
+    case MoreInformationPage => (userAnswers: UserAnswers) =>
+      routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
+    case CheckYourAnswersPage => _ =>
+      //TODO: Route to the Confirmation Page as part of future story
       testOnly.controllers.routes.UnderConstructionController.onPageLoad()
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }
 
   private val checkRoutes: Page => UserAnswers => Call = {
+    case CancelReasonPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(CancelReasonPage) match {
+        case Some(Other) => routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+        case _ => routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
+      }
     case _ => (userAnswers: UserAnswers) =>
-      routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
+      routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }
 
   override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {

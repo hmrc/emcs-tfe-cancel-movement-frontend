@@ -18,7 +18,7 @@ package navigation
 
 import base.SpecBase
 import controllers.routes
-import models.CancelReason.{ContainsError, Other}
+import models.CancelReason.{ContainsError, Duplicate, Other}
 import models._
 import pages._
 
@@ -30,14 +30,14 @@ class NavigatorSpec extends SpecBase {
 
     "in Normal mode" - {
 
-      "must go from a page that doesn't exist in the route map to Index" in {
+      "from a page that doesn't exist in the route map to Index" in {
         case object UnknownPage extends Page
 
         navigator.nextPage(UnknownPage, NormalMode, emptyUserAnswers) mustBe
           routes.IndexController.onPageLoad(testErn, testArc)
       }
 
-      "must go from CancelReasonPage" - {
+      "from CancelReasonPage" - {
 
         s"when Cancel Reason is $Other" - {
 
@@ -56,7 +56,7 @@ class NavigatorSpec extends SpecBase {
         }
       }
 
-      "must go from ChooseGiveMoreInformation" - {
+      "from ChooseGiveMoreInformation" - {
 
         s"when answer is Yes (true)" - {
 
@@ -68,18 +68,59 @@ class NavigatorSpec extends SpecBase {
 
         s"when answer is No (false)" - {
 
-          //TODO: Update as part of future story to go to CheckAnswers page
-          "to the UnderConstruction page" in {
+          "to the CheckYourAnswers page" in {
             navigator.nextPage(ChooseGiveMoreInformationPage, NormalMode, emptyUserAnswers.set(ChooseGiveMoreInformationPage, false)) mustBe
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+              routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
           }
+        }
+      }
+
+      "from MoreInformation page" - {
+
+        "to the CheckYourAnswers page" in {
+          navigator.nextPage(MoreInformationPage, NormalMode, emptyUserAnswers) mustBe
+            routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
+        }
+      }
+
+      "from CheckYourAnswers page" - {
+
+        //TODO: Update as part of future story
+        "to the UnderConstruction page" in {
+          navigator.nextPage(CheckYourAnswersPage, NormalMode, emptyUserAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
         }
       }
     }
 
     "in Check mode" - {
 
+      "from the CancelReason page" - {
 
+        "if reason is 'Other'" - {
+
+          "must go to the MoreInformation page" in {
+            navigator.nextPage(CancelReasonPage, CheckMode, emptyUserAnswers.set(CancelReasonPage, Other)) mustBe
+              routes.MoreInformationController.onPageLoad(testErn, testArc, NormalMode)
+          }
+        }
+
+        "if reason is NOT 'Other'" - {
+
+          "must go to the CheckYourAnswers page" in {
+            navigator.nextPage(CancelReasonPage, CheckMode, emptyUserAnswers.set(CancelReasonPage, Duplicate)) mustBe
+              routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
+          }
+        }
+      }
+
+      "from the MoreInformationPage page" - {
+
+        "must go to the CheckYourAnswers page" in {
+          navigator.nextPage(MoreInformationPage, CheckMode, emptyUserAnswers) mustBe
+            routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
+        }
+      }
     }
   }
 }

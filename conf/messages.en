@@ -111,6 +111,8 @@ cancelReason.differentDispatchDate = Goods were not dispatched on the date given
 cancelReason.containsError = The eAD contains an error
 cancelReason.other = Other
 cancelReason.error.required = Select why you are cancelling this movement
+cancelReason.checkYourAnswers.label = Reason for cancelling
+cancelReason.checkYourAnswers.change.hidden = reason for cancel
 
 chooseGiveMoreInformation.title = Do you want to give more information about why you are cancelling this movement?
 chooseGiveMoreInformation.heading = Do you want to give more information about why you are cancelling this movement?
@@ -123,3 +125,12 @@ moreInformation.error.length = Information must be 350 characters or less
 moreInformation.error.required = Enter information
 moreInformation.error.xss = Information must not include < and > and : and ;
 moreInformation.error.character = Information must contain letters or numbers
+moreInformation.checkYourAnswers.label = More information about cancelling
+moreInformation.checkYourAnswers.addInformation = Give more information about cancelling this movement (optional)
+moreInformation.checkYourAnswers.change.hidden = information about cancelling
+
+checkYourAnswers.title = Check your answers
+checkYourAnswers.heading = Check your answers
+checkYourAnswers.h2 = Now submit your cancellation
+checkYourAnswers.p1 = By submitting this cancellation you are confirming that to the best of your knowledge, the details you are providing are correct.
+checkYourAnswers.submit = Cancel movement

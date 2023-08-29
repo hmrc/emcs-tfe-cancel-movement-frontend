@@ -21,7 +21,7 @@ import forms.ChooseGiveMoreInformationFormProvider
 import models.Mode
 import models.requests.DataRequest
 import navigation.Navigator
-import pages.ChooseGiveMoreInformationPage
+import pages.{ChooseGiveMoreInformationPage, MoreInformationPage}
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -54,7 +54,13 @@ class ChooseGiveMoreInformationController @Inject()(
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
       formProvider().bindFromRequest().fold(
         renderView(BadRequest, _, mode),
-        saveAndRedirect(ChooseGiveMoreInformationPage, _, mode)
+        {
+          case true =>
+            saveAndRedirect(ChooseGiveMoreInformationPage, true, mode)
+          case false =>
+            val updatedAnswers = request.userAnswers.remove(MoreInformationPage)
+            saveAndRedirect(ChooseGiveMoreInformationPage, false, updatedAnswers, mode)
+        }
       )
     }
 

@@ -29,6 +29,8 @@ object CancelReasonMessages {
     val radio4: String
     val radio5: String
     val errorRequired: String
+    val cyaLabel: String
+    val cyaChangeHidden: String
   }
 
   object English extends ViewMessages with BaseEnglish {
@@ -40,6 +42,8 @@ object CancelReasonMessages {
     override val radio4 = "The eAD contains an error"
     override val radio5 = "Other"
     override val errorRequired = "Select why you are cancelling this movement"
+    override val cyaLabel = "Reason for cancelling"
+    override val cyaChangeHidden = "reason for cancel"
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
@@ -51,5 +55,7 @@ object CancelReasonMessages {
     override val radio4 = "The eAD contains an error"
     override val radio5 = "Other"
     override val errorRequired = "Select why you are cancelling this movement"
+    override val cyaLabel = "Reason for cancelling"
+    override val cyaChangeHidden = "reason for cancel"
   }
 }
