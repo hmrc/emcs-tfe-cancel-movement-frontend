@@ -97,10 +97,9 @@ class NavigatorSpec extends SpecBase with MockAppConfig {
 
         "when answer is Yes (true)" - {
 
-          //TODO: Update as part of future story to go to the confirmation page
           "to the confirmation page" in {
             navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, true)) mustBe
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+              routes.ConfirmationController.onPageLoad(testErn, testArc)
           }
         }
 

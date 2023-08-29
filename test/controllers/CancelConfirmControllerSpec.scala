@@ -58,7 +58,7 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
           val result = route(application, request).value
 
           status(result) mustEqual OK
-          contentAsString(result) mustBe view(form)(dataRequest(request), messages(application)).toString()
+          contentAsString(result) mustBe view(form, routes.CancelConfirmController.onSubmit(testErn, testArc))(dataRequest(request), messages(application)).toString()
         }
       }
     }
@@ -75,7 +75,7 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
           val result = route(application, request).value
 
           status(result) mustEqual BAD_REQUEST
-          contentAsString(result) mustBe view(boundForm)(dataRequest(request), messages(application)).toString()
+          contentAsString(result) mustBe view(boundForm, routes.CancelConfirmController.onSubmit(testErn, testArc))(dataRequest(request), messages(application)).toString()
         }
       }
 

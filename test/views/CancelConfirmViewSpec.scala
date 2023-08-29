@@ -43,7 +43,7 @@ class CancelConfirmViewSpec extends ViewSpecBase with ViewBehaviours {
         lazy val view = app.injector.instanceOf[CancelConfirmView]
         lazy val form = app.injector.instanceOf[CancelConfirmFormProvider].apply()
 
-        implicit val doc: Document = Jsoup.parse(view(form).toString())
+        implicit val doc: Document = Jsoup.parse(view(form, testOnwardRoute).toString())
 
         // scalastyle:off magic.number
         behave like pageWithExpectedElementsAndMessages(Seq(

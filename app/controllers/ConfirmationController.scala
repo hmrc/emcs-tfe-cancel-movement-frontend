@@ -17,21 +17,18 @@
 package controllers
 
 import controllers.actions._
-import forms.CancelConfirmFormProvider
-import models.NormalMode
-import models.requests.DataRequest
 import navigation.Navigator
-import pages.CancelConfirmPage
-import play.api.data.Form
+import pages.ConfirmationPage
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
-import views.html.CancelConfirmView
+import views.html.ConfirmationView
 
 import javax.inject.Inject
 import scala.concurrent.Future
 
-class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
+class ConfirmationController @Inject()(
+                                        override val messagesApi: MessagesApi,
                                         override val userAnswersService: UserAnswersService,
                                         override val navigator: Navigator,
                                         override val auth: AuthAction,
@@ -39,25 +36,16 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
                                         override val getData: DataRetrievalAction,
                                         override val requireData: DataRequiredAction,
                                         override val userAllowList: UserAllowListAction,
-                                        formProvider: CancelConfirmFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: CancelConfirmView
-                                       ) extends BaseNavigationController with AuthActionHelper {
+                                        view: ConfirmationView
+                                      ) extends BaseNavigationController with AuthActionHelper {
 
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      renderView(Ok, fillForm(CancelConfirmPage, formProvider()))
+      withAnswer(ConfirmationPage) { confirmationDetails =>
+        logger.info("[onPageLoad] Successful Explain Delay confirmation page displayed")
+        Future.successful(Ok(view(confirmationDetails)))
+      }
     }
 
-  def onSubmit(ern: String, arc: String): Action[AnyContent] =
-    authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      formProvider().bindFromRequest().fold(
-        renderView(BadRequest, _),
-        value =>
-          saveAndRedirect(CancelConfirmPage, value, NormalMode)
-      )
-    }
-
-  private def renderView(status: Status, form: Form[_])(implicit request: DataRequest[_]): Future[Result] =
-    Future.successful(status(view(form, routes.CancelConfirmController.onSubmit(request.ern, request.arc))))
 }

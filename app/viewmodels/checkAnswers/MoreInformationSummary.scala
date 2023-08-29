@@ -21,7 +21,7 @@ import models.{CheckMode, UserAnswers}
 import pages.MoreInformationPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
@@ -50,17 +50,22 @@ class MoreInformationSummary @Inject()(link: link) {
             ).withVisuallyHiddenText(messages("moreInformation.checkYourAnswers.change.hidden"))
           )
         ))
-      case _ if showActionLink =>
+      case _ =>
         Some(SummaryListRowViewModel(
           key = "moreInformation.checkYourAnswers.label",
-          value = ValueViewModel(HtmlContent(
-            link(
-              routes.MoreInformationController.onPageLoad(answers.ern, answers.arc, CheckMode).url,
-              "moreInformation.checkYourAnswers.addInformation"
-            )
-          ))
+          value = ValueViewModel(
+            if (showActionLink) {
+              HtmlContent(
+                link(
+                  routes.MoreInformationController.onPageLoad(answers.ern, answers.arc, CheckMode).url,
+                  "moreInformation.checkYourAnswers.addInformation"
+                )
+              )
+            } else {
+              Text(messages("moreInformation.confirmation.notProvided"))
+            }
+          )
         ))
-      case _ => None
     }
   }
 }

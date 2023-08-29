@@ -42,3 +42,5 @@ POST       /trader/:ern/movement/:arc/check-answers                         cont
 
 GET        /trader/:ern/movement/:arc/cancel-confirm                        controllers.CancelConfirmController.onPageLoad(ern: String, arc: String)
 POST       /trader/:ern/movement/:arc/cancel-confirm                        controllers.CancelConfirmController.onSubmit(ern: String, arc: String)
+
+GET        /trader/:ern/movement/:arc/confirmation                          controllers.ConfirmationController.onPageLoad(ern: String, arc: String)

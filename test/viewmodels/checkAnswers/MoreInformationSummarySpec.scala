@@ -23,7 +23,7 @@ import org.scalatest.matchers.must.Matchers
 import pages.MoreInformationPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.Value
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import viewmodels.govuk.summarylist._
 import views.html.components.link
 import viewmodels.implicits._
@@ -64,9 +64,13 @@ class MoreInformationSummarySpec extends SpecBase with Matchers {
 
           "when showAction links is false" - {
 
-            "must return None" in {
+            "must return row with a `Not Provided` value" in {
 
-              delayDetailsSummary.row(showActionLink = false)(emptyUserAnswers, msgs) mustBe None
+              delayDetailsSummary.row(showActionLink = false)(emptyUserAnswers, msgs) mustBe
+                Some(SummaryListRowViewModel(
+                  key = messagesForLanguage.cyaLabel,
+                  value = ValueViewModel(Text(messagesForLanguage.notProvided))
+                ))
             }
           }
         }

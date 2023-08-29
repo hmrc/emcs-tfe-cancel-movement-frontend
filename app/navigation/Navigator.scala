@@ -51,8 +51,7 @@ class Navigator @Inject()(appConfig: AppConfig) extends BaseNavigator {
     case CancelConfirmPage => (userAnswers: UserAnswers) =>
       userAnswers.get(CancelConfirmPage) match {
         case Some(true) =>
-          //TODO: Route to ConfirmationPage as part of future story
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          routes.ConfirmationController.onPageLoad(userAnswers.ern, userAnswers.arc)
         case _ =>
           Call("GET", appConfig.emcsTfeHomeUrl(Some(userAnswers.ern)))
       }
