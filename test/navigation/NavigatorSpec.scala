@@ -99,9 +99,20 @@ class NavigatorSpec extends SpecBase {
 
         "if reason is 'Other'" - {
 
-          "must go to the MoreInformation page" in {
-            navigator.nextPage(CancelReasonPage, CheckMode, emptyUserAnswers.set(CancelReasonPage, Other)) mustBe
-              routes.MoreInformationController.onPageLoad(testErn, testArc, NormalMode)
+          "if the MoreInformation page has NO value" - {
+
+            "must go to the MoreInformation page" in {
+              navigator.nextPage(CancelReasonPage, CheckMode, emptyUserAnswers.set(CancelReasonPage, Other)) mustBe
+                routes.MoreInformationController.onPageLoad(testErn, testArc, NormalMode)
+            }
+          }
+
+          "if the MoreInformation page has a value" - {
+
+            "must go to the CheckYourAnswers page" in {
+              navigator.nextPage(CancelReasonPage, CheckMode, emptyUserAnswers.set(CancelReasonPage, Other).set(MoreInformationPage, Some("foo"))) mustBe
+                routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
+            }
           }
         }
 

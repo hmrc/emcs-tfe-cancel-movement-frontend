@@ -21,6 +21,7 @@ import models.CancelReason.Other
 import models.{Mode, NormalMode, UserAnswers}
 import pages._
 import play.api.mvc.Call
+import utils.JsonOptionFormatter._
 
 import javax.inject.Inject
 
@@ -52,8 +53,8 @@ class Navigator @Inject()() extends BaseNavigator {
 
   private val checkRoutes: Page => UserAnswers => Call = {
     case CancelReasonPage => (userAnswers: UserAnswers) =>
-      userAnswers.get(CancelReasonPage) match {
-        case Some(Other) => routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      (userAnswers.get(CancelReasonPage), userAnswers.get(MoreInformationPage).flatten) match {
+        case (Some(Other), None) => routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ => routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
       }
     case _ => (userAnswers: UserAnswers) =>
