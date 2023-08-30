@@ -18,6 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.MoreInformationFormProvider
+import mocks.MockAppConfig
 import mocks.services.MockUserAnswersService
 import models.CancelReason.{Duplicate, Other}
 import models.{NormalMode, UserAnswers}
@@ -31,7 +32,7 @@ import views.html.MoreInformationView
 
 import scala.concurrent.Future
 
-class MoreInformationControllerSpec extends SpecBase with MockUserAnswersService {
+class MoreInformationControllerSpec extends SpecBase with MockUserAnswersService with MockAppConfig {
 
   lazy val formProvider = new MoreInformationFormProvider()
   lazy val moreInformationRoute = routes.MoreInformationController.onPageLoad(testErn, testArc, NormalMode).url
@@ -44,7 +45,7 @@ class MoreInformationControllerSpec extends SpecBase with MockUserAnswersService
     val application =
       applicationBuilder(userAnswers)
         .overrides(
-          bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute)),
+          bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute, mockAppConfig)),
           bind[UserAnswersService].toInstance(mockUserAnswersService)
         )
         .build()

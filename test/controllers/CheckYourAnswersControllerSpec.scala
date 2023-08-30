@@ -18,6 +18,7 @@ package controllers
 
 import base.SpecBase
 import handlers.ErrorHandler
+import mocks.MockAppConfig
 import mocks.services.MockUserAnswersService
 import models.CancelReason.Duplicate
 import models.UserAnswers
@@ -30,7 +31,7 @@ import play.api.test.Helpers._
 import services.UserAnswersService
 import views.html.CheckYourAnswersView
 
-class CheckYourAnswersControllerSpec extends SpecBase with MockUserAnswersService {
+class CheckYourAnswersControllerSpec extends SpecBase with MockUserAnswersService with MockAppConfig {
 
   class Fixture(val userAnswers: Option[UserAnswers] = Some(emptyUserAnswers
     .set(CancelReasonPage, Duplicate)
@@ -38,7 +39,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with MockUserAnswersServic
   )) {
     val application = applicationBuilder(userAnswers)
       .overrides(
-        bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+        bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
         bind[UserAnswersService].toInstance(mockUserAnswersService)
       )
       .build()

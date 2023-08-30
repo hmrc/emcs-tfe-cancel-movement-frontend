@@ -124,6 +124,7 @@ cancelConfirm.paragraph1 = When you cancel a movement, its electronic administra
 cancelConfirm.paragraph2 = If you still want to move the goods, you will need to create a new movement.
 cancelConfirm.yes = Yes, cancel this movement
 cancelConfirm.no = No, return to the movement
+cancelConfirm.error.required = Select yes if you want to cancel this movement
 
 moreInformation.title = Give more information about why you are cancelling this movement
 moreInformation.heading = Give more information about why you are cancelling this movement

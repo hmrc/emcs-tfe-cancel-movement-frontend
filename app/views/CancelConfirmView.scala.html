@@ -32,6 +32,8 @@
 
     @formHelper(action = routes.CancelConfirmController.onSubmit(request.ern, request.arc, mode), 'autoComplete -> "off") {
 
+        @heading
+
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
@@ -58,7 +60,7 @@
                     value   = Some("false"),
                     content = Text(messages("cancelConfirm.no"))
                     )),
-                legend = LegendViewModel(HtmlContent(heading)).withCssClass("govuk-fieldset__legend govuk-fieldset__legend--l")
+                legend = LegendViewModel(Text(messages("cancelConfirm.heading"))).hidden
             )
         )
 
@@ -69,6 +71,5 @@
 }
 
 @heading = {
-    @h1("cancelConfirm.heading", Some(messages("arc.subHeading", request.arc)), "govuk-fieldset__heading")
+    @h1("cancelConfirm.heading", Some(messages("arc.subHeading", request.arc)))
 }
-
