@@ -16,7 +16,6 @@
 
 package navigation
 
-import config.AppConfig
 import controllers.routes
 import models.CancelReason.Other
 import models.{Mode, NormalMode, UserAnswers}
@@ -27,7 +26,7 @@ import utils.JsonOptionFormatter._
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class Navigator @Inject()(appConfig: AppConfig) extends BaseNavigator {
+class Navigator @Inject()() extends BaseNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
     case CancelReasonPage => (userAnswers: UserAnswers) =>
@@ -49,12 +48,7 @@ class Navigator @Inject()(appConfig: AppConfig) extends BaseNavigator {
     case CheckYourAnswersPage => (userAnswers: UserAnswers) =>
       routes.CancelConfirmController.onPageLoad(userAnswers.ern, userAnswers.arc)
     case CancelConfirmPage => (userAnswers: UserAnswers) =>
-      userAnswers.get(CancelConfirmPage) match {
-        case Some(true) =>
-          routes.ConfirmationController.onPageLoad(userAnswers.ern, userAnswers.arc)
-        case _ =>
-          Call("GET", appConfig.emcsTfeHomeUrl(Some(userAnswers.ern)))
-      }
+      routes.ConfirmationController.onPageLoad(userAnswers.ern, userAnswers.arc)
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }

@@ -16,12 +16,13 @@
 
 package controllers
 
+import config.AppConfig
 import controllers.actions._
 import forms.CancelConfirmFormProvider
-import models.NormalMode
 import models.requests.DataRequest
+import models.{ConfirmationDetails, NormalMode}
 import navigation.Navigator
-import pages.CancelConfirmPage
+import pages.{CancelConfirmPage, ConfirmationPage}
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -42,19 +43,26 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
                                         formProvider: CancelConfirmFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: CancelConfirmView
-                                       ) extends BaseNavigationController with AuthActionHelper {
+                                       )(implicit appConfig: AppConfig) extends BaseNavigationController with AuthActionHelper {
 
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      renderView(Ok, fillForm(CancelConfirmPage, formProvider()))
+      renderView(Ok, formProvider())
     }
 
   def onSubmit(ern: String, arc: String): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
       formProvider().bindFromRequest().fold(
         renderView(BadRequest, _),
-        value =>
-          saveAndRedirect(CancelConfirmPage, value, NormalMode)
+        {
+          case true =>
+            //TODO: Update to call submission service as part of future story
+            save(ConfirmationPage, ConfirmationDetails("DUMMY_RECEIPT_REFERENCE")).map { answers =>
+              Redirect(navigator.nextPage(CancelConfirmPage, NormalMode, answers))
+            }
+          case false =>
+            Future.successful(Redirect(appConfig.emcsTfeHomeUrl(Some(ern))))
+        }
       )
     }
 

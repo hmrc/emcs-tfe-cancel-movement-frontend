@@ -85,7 +85,7 @@ class CancelReasonControllerSpec extends SpecBase with MockUserAnswersService wi
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
             bind[UserAnswersService].toInstance(mockUserAnswersService)
           )
           .build()

@@ -45,7 +45,7 @@ class MoreInformationControllerSpec extends SpecBase with MockUserAnswersService
     val application =
       applicationBuilder(userAnswers)
         .overrides(
-          bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute, mockAppConfig)),
+          bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute)),
           bind[UserAnswersService].toInstance(mockUserAnswersService)
         )
         .build()

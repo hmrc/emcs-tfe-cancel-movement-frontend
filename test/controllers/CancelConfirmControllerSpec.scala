@@ -17,11 +17,13 @@
 package controllers
 
 import base.SpecBase
+import config.AppConfig
 import forms.CancelConfirmFormProvider
 import mocks.MockAppConfig
 import mocks.services.MockUserAnswersService
+import models.ConfirmationDetails
 import navigation.{FakeNavigator, Navigator}
-import pages.CancelConfirmPage
+import pages.{CancelConfirmPage, ConfirmationPage}
 import play.api.Application
 import play.api.data.Form
 import play.api.http.Status.{OK, SEE_OTHER}
@@ -38,12 +40,13 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
   trait Fixture {
     val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).overrides(
       bind[UserAnswersService].toInstance(mockUserAnswersService),
-      bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute, mockAppConfig))
+      bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute))
     ).build()
 
     val formProvider = new CancelConfirmFormProvider()
     val form: Form[Boolean] = formProvider()
     val view: CancelConfirmView = application.injector.instanceOf[CancelConfirmView]
+    val appConfig = application.injector.instanceOf[AppConfig]
   }
 
   "CancelConfirmController" - {
@@ -82,15 +85,16 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
       "must redirect to confirmation page when user selects yes" in new Fixture {
 
         running(application) {
-          val updatedAnswers = emptyUserAnswers.set(CancelConfirmPage, true)
+
+          val updatedAnswers = emptyUserAnswers.set(ConfirmationPage, ConfirmationDetails(testConfirmationReference))
           MockUserAnswersService.set(updatedAnswers).returns(Future.successful(updatedAnswers)).once()
 
-          val request = FakeRequest(POST, routes.CancelConfirmController.onSubmit(testErn, testArc).url)
-            .withFormUrlEncodedBody(("value", "true"))
-
+          val request =
+            FakeRequest(POST, routes.CancelConfirmController
+              .onSubmit(testErn, testArc).url)
+              .withFormUrlEncodedBody(("value", "true"))
 
           val result = route(application, request).value
-
 
           status(result) mustEqual SEE_OTHER
           redirectLocation(result) mustBe Some(testOnwardRoute.url)
@@ -100,16 +104,16 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
       "must redirect to at a glance page when user selects no" in new Fixture {
 
         running(application) {
-          val updatedAnswers = emptyUserAnswers.set(CancelConfirmPage, false)
-          MockUserAnswersService.set(updatedAnswers).returns(Future.successful(updatedAnswers)).once()
 
-          val request = FakeRequest(POST, routes.CancelConfirmController.onSubmit(testErn, testArc).url)
-            .withFormUrlEncodedBody(("value", "false"))
+          val request =
+            FakeRequest(POST, routes.CancelConfirmController
+              .onSubmit(testErn, testArc).url)
+              .withFormUrlEncodedBody(("value", "false"))
 
           val result = route(application, request).value
 
           status(result) mustEqual SEE_OTHER
-          redirectLocation(result) mustBe Some(testOnwardRoute.url)
+          redirectLocation(result) mustBe Some(appConfig.emcsTfeHomeUrl(Some(testErn)))
         }
       }
     }

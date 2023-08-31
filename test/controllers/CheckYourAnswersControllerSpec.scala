@@ -39,7 +39,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with MockUserAnswersServic
   )) {
     val application = applicationBuilder(userAnswers)
       .overrides(
-        bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
+        bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
         bind[UserAnswersService].toInstance(mockUserAnswersService)
       )
       .build()
