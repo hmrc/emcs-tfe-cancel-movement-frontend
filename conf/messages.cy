@@ -135,9 +135,24 @@ moreInformation.error.character = Information must contain letters or numbers
 moreInformation.checkYourAnswers.label = More information about cancelling
 moreInformation.checkYourAnswers.addInformation = Give more information about cancelling this movement (optional)
 moreInformation.checkYourAnswers.change.hidden = information about cancelling
+moreInformation.confirmation.notProvided = Not provided
 
 checkYourAnswers.title = Check your answers
 checkYourAnswers.heading = Check your answers
 checkYourAnswers.h2 = Now submit your cancellation
 checkYourAnswers.p1 = By submitting this cancellation you are confirming that to the best of your knowledge, the details you are providing are correct.
 checkYourAnswers.submit = Cancel movement
+
+confirmation.title = Cancellation submitted
+confirmation.heading = Cancellation submitted
+confirmation.delayInformation.h2 = Cancellation information
+confirmation.reference = Your submission reference is
+confirmation.print.link = Print this screen
+confirmation.print.afterLink = to make a record of your submission.
+confirmation.mayNeedToDo.h2 = What you may need to do
+confirmation.mayNeedToDo.p1.preLink = If you still want to move the goods, you will need to
+confirmation.mayNeedToDo.p1.link = create a new movement
+confirmation.mayNeedToDo.p1.afterLink = with a different local reference number (LRN).
+confirmation.returnToOverview = Return to EMCS overview
+confirmation.feedback.link = What did you think of this service?
+confirmation.feedback.time = (takes 30 seconds)

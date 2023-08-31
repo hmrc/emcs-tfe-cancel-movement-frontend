@@ -76,6 +76,14 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
     }
   }
 
+  def emcsTfeCreateMovementUrl(ern: String): String = {
+    if (isEnabled(ReturnToLegacy)) {
+      configuration.get[String]("urls.legacy.createMovement").replace(":ern", ern)
+    } else {
+      configuration.get[String]("urls.emcsTfeCreateMovement") + s"/$ern"
+    }
+  }
+
   def emcsMovementDetailsUrl(ern: String, arc: String): String =
     if (isEnabled(ReturnToLegacy)) {
       configuration.get[String]("urls.legacy.movementHistory").replace(":ern", ern).replace(":arc", arc)

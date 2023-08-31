@@ -31,6 +31,7 @@ object MoreInformationMessages {
     val cyaLabel: String
     val cyaChangeHidden: String
     val cyaAddInformation: String
+    val notProvided: String
   }
 
   object English extends ViewMessages with BaseEnglish {
@@ -44,6 +45,7 @@ object MoreInformationMessages {
     override val cyaLabel = "More information about cancelling"
     override val cyaChangeHidden = "information about cancelling"
     override val cyaAddInformation = "Give more information about cancelling this movement (optional)"
+    override val notProvided = "Not provided"
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
@@ -57,5 +59,6 @@ object MoreInformationMessages {
     override val cyaLabel = "More information about cancelling"
     override val cyaChangeHidden = "information about cancelling"
     override val cyaAddInformation = "Give more information about cancelling this movement (optional)"
+    override val notProvided = "Not provided"
   }
 }

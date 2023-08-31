@@ -24,9 +24,9 @@ import models._
 import pages._
 import play.api.mvc.Call
 
-class NavigatorSpec extends SpecBase with MockAppConfig {
+class NavigatorSpec extends SpecBase {
 
-  val navigator = new Navigator(mockAppConfig)
+  val navigator = new Navigator()
 
   "Navigator" - {
 
@@ -89,29 +89,23 @@ class NavigatorSpec extends SpecBase with MockAppConfig {
 
         "to the CancelConfirm page" in {
           navigator.nextPage(CheckYourAnswersPage, NormalMode, emptyUserAnswers) mustBe
-            routes.CancelConfirmController.onPageLoad(testErn, testArc, NormalMode)
+            routes.CancelConfirmController.onPageLoad(testErn, testArc)
         }
       }
 
       "must go from CancelConfirm page" - {
 
-        "when answer is Yes (true)" - {
-
-          //TODO: Update as part of future story to go to the confirmation page
-          "to the confirmation page" in {
-            navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, true)) mustBe
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
-          }
+        "to the confirmation page" in {
+          navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, true)) mustBe
+            routes.ConfirmationController.onPageLoad(testErn, testArc)
         }
+      }
 
-        "when answer is No (false)" - {
+      "must go from CancelConfirm page" - {
 
-          "to the at a glance page" in {
-            MockAppConfig.emcsTfeHomeUrl(Some(testErn))
-
-            navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, false)) mustBe
-              Call("GET", "http://localhost:8310/emcs-tfe")
-          }
+        "to the ConfirmationPage" in {
+          navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, true)) mustBe
+            routes.ConfirmationController.onPageLoad(testErn, testArc)
         }
       }
     }

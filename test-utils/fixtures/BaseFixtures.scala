@@ -28,7 +28,7 @@ trait BaseFixtures {
   val testInternalId: String = "internalId"
   val testErn: String = "ern"
   val testArc: String = "arc"
-  val testConfirmationReference = "UYVQBLMXCYK6HAEBZI7TSWAQ6XDTXFYU"
+  val testConfirmationReference = "DUMMY_RECEIPT_REFERENCE"
   val testReceiptDate = "2023-06-07T10:11:12.000"
   val testOnwardRoute = Call("GET", "/foo")
 

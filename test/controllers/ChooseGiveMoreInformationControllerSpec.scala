@@ -85,7 +85,7 @@ class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnsw
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
             bind[UserAnswersService].toInstance(mockUserAnswersService)
           )
           .build()
@@ -115,7 +115,7 @@ class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnsw
       val application =
         applicationBuilder(userAnswers = Some(answersBefore))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
             bind[UserAnswersService].toInstance(mockUserAnswersService)
           )
           .build()

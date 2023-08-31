@@ -32,11 +32,6 @@ POST       /trader/:ern/movement/:arc/cancel-details-choice                 cont
 GET        /trader/:ern/movement/:arc/cancel-details-choice/change          controllers.ChooseGiveMoreInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
 POST       /trader/:ern/movement/:arc/cancel-details-choice/change          controllers.ChooseGiveMoreInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
 
-GET        /trader/:ern/movement/:arc/cancel-confirm                        controllers.CancelConfirmController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
-POST       /trader/:ern/movement/:arc/cancel-confirm                        controllers.CancelConfirmController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
-GET        /trader/:ern/movement/:arc/cancel-confirm/change                 controllers.CancelConfirmController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
-POST       /trader/:ern/movement/:arc/cancel-confirm/change                 controllers.CancelConfirmController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
-
 GET        /trader/:ern/movement/:arc/cancel-details                        controllers.MoreInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
 POST       /trader/:ern/movement/:arc/cancel-details                        controllers.MoreInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
 GET        /trader/:ern/movement/:arc/cancel-details/change                 controllers.MoreInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
@@ -44,3 +39,8 @@ POST       /trader/:ern/movement/:arc/cancel-details/change                 cont
 
 GET        /trader/:ern/movement/:arc/check-answers                         controllers.CheckYourAnswersController.onPageLoad(ern: String, arc: String)
 POST       /trader/:ern/movement/:arc/check-answers                         controllers.CheckYourAnswersController.onSubmit(ern: String, arc: String)
+
+GET        /trader/:ern/movement/:arc/cancel-confirm                        controllers.CancelConfirmController.onPageLoad(ern: String, arc: String)
+POST       /trader/:ern/movement/:arc/cancel-confirm                        controllers.CancelConfirmController.onSubmit(ern: String, arc: String)
+
+GET        /trader/:ern/movement/:arc/confirmation                          controllers.ConfirmationController.onPageLoad(ern: String, arc: String)
