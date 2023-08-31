@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package navigation
+package mocks
 
 import config.AppConfig
-import models.{Mode, UserAnswers}
-import pages._
-import play.api.mvc.Call
+import org.scalamock.handlers.CallHandler
+import org.scalatest.matchers.should.Matchers
+import org.scalamock.scalatest.MockFactory
 
-class FakeNavigator(desiredRoute: Call, appConfig: AppConfig) extends Navigator(appConfig) {
+trait MockAppConfig extends MockFactory {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
-    desiredRoute
+  lazy val mockAppConfig: AppConfig = mock[AppConfig]
+
+  object MockAppConfig extends Matchers {
+    def emcsTfeHomeUrl(ern: Option[String]): CallHandler[String] = {
+      (mockAppConfig.emcsTfeHomeUrl(_:Option[String])).expects(*).returns("http://localhost:8310/emcs-tfe")
+    }
+  }
+
 }

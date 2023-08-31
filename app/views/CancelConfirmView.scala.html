@@ -1,0 +1,75 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models.requests.DataRequest
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukRadios: GovukRadios,
+    govukButton: GovukButton,
+    p: components.p,
+    h1: components.h1
+)
+
+@(form: Form[_], mode: Mode)(implicit request: DataRequest[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("cancelConfirm.title"))) {
+
+    @formHelper(action = routes.CancelConfirmController.onSubmit(request.ern, request.arc, mode), 'autoComplete -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+        @heading
+
+        @p(){
+            @messages("cancelConfirm.paragraph1")
+        }
+
+        @p(){
+            @messages("cancelConfirm.paragraph2")
+        }
+
+        @govukRadios(
+            RadiosViewModel(
+                field = form("value"),
+                items = Seq(
+                    RadioItem(
+                    id      = Some("value"),
+                    value   = Some("true"),
+                    content = Text(messages("cancelConfirm.yes"))
+                    ),
+                    RadioItem(
+                    id      = Some("value-no"),
+                    value   = Some("false"),
+                    content = Text(messages("cancelConfirm.no"))
+                    )),
+                legend = LegendViewModel(Text(messages("cancelConfirm.heading"))).hidden
+            )
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.continue"))
+        )
+    }
+}
+
+@heading = {
+    @h1("cancelConfirm.heading", Some(messages("arc.subHeading", request.arc)))
+}

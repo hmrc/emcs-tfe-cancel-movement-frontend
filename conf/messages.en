@@ -117,6 +117,14 @@ chooseGiveMoreInformation.title = Do you want to give more information about why
 chooseGiveMoreInformation.heading = Do you want to give more information about why you are cancelling this movement?
 chooseGiveMoreInformation.error.required = Select if you want to give more information about why you are cancelling this movement
 
+cancelConfirm.title = Are you sure you want to cancel this movement?
+cancelConfirm.heading = Are you sure you want to cancel this movement?
+cancelConfirm.paragraph1 = When you cancel a movement, its electronic administrative document (eAD) and administrative reference code (ARC) are saved and marked as cancelled.
+cancelConfirm.paragraph2 = If you still want to move the goods, you will need to create a new movement.
+cancelConfirm.yes = Yes, cancel this movement
+cancelConfirm.no = No, return to the movement
+cancelConfirm.error.required = Select yes if you want to cancel this movement
+
 moreInformation.title = Give more information about why you are cancelling this movement
 moreInformation.heading = Give more information about why you are cancelling this movement
 moreInformation.hint.optional = Give information (optional).

@@ -18,6 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.ChooseGiveMoreInformationFormProvider
+import mocks.MockAppConfig
 import mocks.services.MockUserAnswersService
 import models.NormalMode
 import navigation.{FakeNavigator, Navigator}
@@ -31,7 +32,7 @@ import views.html.ChooseGiveMoreInformationView
 
 import scala.concurrent.Future
 
-class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnswersService {
+class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnswersService with MockAppConfig {
 
   def onwardRoute = Call("GET", "/foo")
 
@@ -84,7 +85,7 @@ class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnsw
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
             bind[UserAnswersService].toInstance(mockUserAnswersService)
           )
           .build()
@@ -114,7 +115,7 @@ class ChooseGiveMoreInformationControllerSpec extends SpecBase with MockUserAnsw
       val application =
         applicationBuilder(userAnswers = Some(answersBefore))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute, mockAppConfig)),
             bind[UserAnswersService].toInstance(mockUserAnswersService)
           )
           .build()

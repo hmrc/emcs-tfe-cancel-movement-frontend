@@ -16,6 +16,7 @@
 
 package navigation
 
+import config.AppConfig
 import controllers.routes
 import models.CancelReason.Other
 import models.{Mode, NormalMode, UserAnswers}
@@ -23,9 +24,10 @@ import pages._
 import play.api.mvc.Call
 import utils.JsonOptionFormatter._
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
-class Navigator @Inject()() extends BaseNavigator {
+@Singleton
+class Navigator @Inject()(appConfig: AppConfig) extends BaseNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
     case CancelReasonPage => (userAnswers: UserAnswers) =>
@@ -44,9 +46,16 @@ class Navigator @Inject()() extends BaseNavigator {
       }
     case MoreInformationPage => (userAnswers: UserAnswers) =>
       routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
-    case CheckYourAnswersPage => _ =>
-      //TODO: Route to the Confirmation Page as part of future story
-      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+    case CheckYourAnswersPage => (userAnswers: UserAnswers) =>
+      routes.CancelConfirmController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+    case CancelConfirmPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(CancelConfirmPage) match {
+        case Some(true) =>
+          //TODO: Route to ConfirmationPage as part of future story
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        case _ =>
+          Call("GET", appConfig.emcsTfeHomeUrl(Some(userAnswers.ern)))
+      }
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }

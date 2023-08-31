@@ -18,13 +18,15 @@ package navigation
 
 import base.SpecBase
 import controllers.routes
+import mocks.MockAppConfig
 import models.CancelReason.{ContainsError, Duplicate, Other}
 import models._
 import pages._
+import play.api.mvc.Call
 
-class NavigatorSpec extends SpecBase {
+class NavigatorSpec extends SpecBase with MockAppConfig {
 
-  val navigator = new Navigator
+  val navigator = new Navigator(mockAppConfig)
 
   "Navigator" - {
 
@@ -66,7 +68,7 @@ class NavigatorSpec extends SpecBase {
           }
         }
 
-        s"when answer is No (false)" - {
+        "when answer is No (false)" - {
 
           "to the CheckYourAnswers page" in {
             navigator.nextPage(ChooseGiveMoreInformationPage, NormalMode, emptyUserAnswers.set(ChooseGiveMoreInformationPage, false)) mustBe
@@ -85,10 +87,31 @@ class NavigatorSpec extends SpecBase {
 
       "from CheckYourAnswers page" - {
 
-        //TODO: Update as part of future story
-        "to the UnderConstruction page" in {
+        "to the CancelConfirm page" in {
           navigator.nextPage(CheckYourAnswersPage, NormalMode, emptyUserAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            routes.CancelConfirmController.onPageLoad(testErn, testArc, NormalMode)
+        }
+      }
+
+      "must go from CancelConfirm page" - {
+
+        "when answer is Yes (true)" - {
+
+          //TODO: Update as part of future story to go to the confirmation page
+          "to the confirmation page" in {
+            navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, true)) mustBe
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+        }
+
+        "when answer is No (false)" - {
+
+          "to the at a glance page" in {
+            MockAppConfig.emcsTfeHomeUrl(Some(testErn))
+
+            navigator.nextPage(CancelConfirmPage, NormalMode, emptyUserAnswers.set(CancelConfirmPage, false)) mustBe
+              Call("GET", "http://localhost:8310/emcs-tfe")
+          }
         }
       }
     }

@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package navigation
+package forms
 
-import config.AppConfig
-import models.{Mode, UserAnswers}
-import pages._
-import play.api.mvc.Call
+import javax.inject.Inject
 
-class FakeNavigator(desiredRoute: Call, appConfig: AppConfig) extends Navigator(appConfig) {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
-    desiredRoute
+class CancelConfirmFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("cancelConfirm.error.required")
+    )
 }
