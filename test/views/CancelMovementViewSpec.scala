@@ -50,8 +50,7 @@ class CancelMovementViewSpec extends ViewSpecBase with ViewBehaviours {
           Selectors.h2(1) -> messagesForLanguage.arcSubheading(testArc),
           Selectors.p(1) -> messagesForLanguage.paragraph1,
           Selectors.p(2) -> messagesForLanguage.paragraph2,
-          Selectors.bullet(1) -> messagesForLanguage.bullet1,
-          Selectors.bullet(2) -> messagesForLanguage.bullet2,
+          Selectors.p(3) -> messagesForLanguage.paragraph3,
           Selectors.button -> messagesForLanguage.continue
         ))
       }

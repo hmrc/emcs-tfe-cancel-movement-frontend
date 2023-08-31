@@ -99,9 +99,8 @@ journeyRecovery.p3.signOutLink = sign out
 
 cancelMovement.title = Cancel this movement
 cancelMovement.paragraph1 = You can choose to cancel a movement before the goods have left your premises.
-cancelMovement.paragraph2 = By cancelling this movement, you will also permanently delete its:
-cancelMovement.bullet1 = electronic administrative document (eAD)
-cancelMovement.bullet2 = administrative reference code (ARC)
+cancelMovement.paragraph2 = When you cancel a movement, its electronic administrative document (eAD) and administrative reference code (ARC) are saved and marked as cancelled.
+cancelMovement.paragraph3 = If you still want to move the goods, you will need to create a new movement.
 
 cancelReason.title = Why are you cancelling this movement?
 cancelReason.heading = Why are you cancelling this movement?

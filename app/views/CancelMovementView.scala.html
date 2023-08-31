@@ -18,7 +18,6 @@
         layout: templates.Layout,
         govukButton: GovukButton,
         h1: components.h1,
-        bullets: components.bullets,
         p: components.p,
         continue: components.continue,
         form: FormWithCSRF
@@ -38,10 +37,9 @@
         @messages("cancelMovement.paragraph2")
     }
 
-    @bullets(Seq(
-            Html(messages("cancelMovement.bullet1")),
-            Html(messages("cancelMovement.bullet2"))
-    ))
+    @p() {
+        @messages("cancelMovement.paragraph3")
+    }
 
     @form(action) {
         @continue()
