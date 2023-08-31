@@ -87,10 +87,9 @@ class NavigatorSpec extends SpecBase with MockAppConfig {
 
       "from CheckYourAnswers page" - {
 
-        //TODO: Update as part of future story
-        "to the UnderConstruction page" in {
+        "to the CancelConfirm page" in {
           navigator.nextPage(CheckYourAnswersPage, NormalMode, emptyUserAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            routes.CancelConfirmController.onPageLoad(testErn, testArc, NormalMode)
         }
       }
 

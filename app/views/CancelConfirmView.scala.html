@@ -32,11 +32,11 @@
 
     @formHelper(action = routes.CancelConfirmController.onSubmit(request.ern, request.arc, mode), 'autoComplete -> "off") {
 
-        @heading
-
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
+
+        @heading
 
         @p(){
             @messages("cancelConfirm.paragraph1")
