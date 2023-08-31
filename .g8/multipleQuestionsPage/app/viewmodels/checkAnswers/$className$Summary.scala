@@ -19,7 +19,7 @@ object $className$Summary  {
       val value = HtmlFormat.escape(answer.$field1Name$).toString + "<br/>" + HtmlFormat.escape(answer.$field2Name$).toString
 
         SummaryListRowViewModel(
-          key     = "$className;format="decap"$.checkYourAnswersLabel",
+          key     = "$className;format="decap"$.checkYourAnswers.label",
           value   = ValueViewModel(HtmlContent(value)),
           actions = Seq(
             ActionItemViewModel("site.change", routes.$className$Controller.onPageLoad(answers.ern, answers.arc, CheckMode).url, $className$Page)

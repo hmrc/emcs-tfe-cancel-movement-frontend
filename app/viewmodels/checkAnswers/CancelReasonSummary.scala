@@ -28,22 +28,19 @@ import viewmodels.implicits._
 
 object CancelReasonSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
+  def row(showActionLink: Boolean)(implicit answers: UserAnswers, messages: Messages): Option[SummaryListRow] =
     answers.get(CancelReasonPage).map {
       answer =>
-
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"cancelReason.$answer"))
-          )
-        )
-
         SummaryListRowViewModel(
-          key     = "cancelReason.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
+          key     = "cancelReason.checkYourAnswers.label",
+          value   = ValueViewModel(
+            HtmlContent(
+              HtmlFormat.escape(messages(s"cancelReason.$answer"))
+            )
+          ),
+          actions = if(!showActionLink) Seq() else Seq(
             ActionItemViewModel("site.change", routes.CancelReasonController.onPageLoad(answers.ern, answers.arc, CheckMode).url, CancelReasonPage)
-              .withVisuallyHiddenText(messages("cancelReason.change.hidden"))
+              .withVisuallyHiddenText(messages("cancelReason.checkYourAnswers.change.hidden"))
           )
         )
     }

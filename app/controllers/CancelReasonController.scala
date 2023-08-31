@@ -19,17 +19,16 @@ package controllers
 import controllers.actions._
 import forms.CancelReasonFormProvider
 import models.requests.DataRequest
-
-import javax.inject.Inject
 import models.{CancelReason, Mode}
 import navigation.Navigator
 import pages.CancelReasonPage
 import play.api.data.Form
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import services.UserAnswersService
 import views.html.CancelReasonView
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 class CancelReasonController @Inject()(

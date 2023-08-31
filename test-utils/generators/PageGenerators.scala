@@ -21,6 +21,12 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryMoreInformationPage: Arbitrary[MoreInformationPage.type] =
+    Arbitrary(MoreInformationPage)
+
+  implicit lazy val arbitraryChooseGiveMoreInformationPage: Arbitrary[ChooseGiveMoreInformationPage.type] =
+    Arbitrary(ChooseGiveMoreInformationPage)
+
   implicit lazy val arbitraryCancelReasonPage: Arbitrary[CancelReasonPage.type] =
     Arbitrary(CancelReasonPage)
 

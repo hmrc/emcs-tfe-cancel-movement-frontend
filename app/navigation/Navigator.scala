@@ -17,24 +17,48 @@
 package navigation
 
 import controllers.routes
+import models.CancelReason.Other
 import models.{Mode, NormalMode, UserAnswers}
 import pages._
 import play.api.mvc.Call
+import utils.JsonOptionFormatter._
 
 import javax.inject.Inject
 
 class Navigator @Inject()() extends BaseNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case CancelReasonPage => _ =>
+    case CancelReasonPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(CancelReasonPage) match {
+        case Some(Other) =>
+          routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+        case _ =>
+          routes.ChooseGiveMoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      }
+    case ChooseGiveMoreInformationPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(ChooseGiveMoreInformationPage) match {
+        case Some(true) =>
+          routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+        case _ =>
+          routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
+      }
+    case MoreInformationPage => (userAnswers: UserAnswers) =>
+      routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
+    case CheckYourAnswersPage => _ =>
+      //TODO: Route to the Confirmation Page as part of future story
       testOnly.controllers.routes.UnderConstructionController.onPageLoad()
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }
 
   private val checkRoutes: Page => UserAnswers => Call = {
+    case CancelReasonPage => (userAnswers: UserAnswers) =>
+      (userAnswers.get(CancelReasonPage), userAnswers.get(MoreInformationPage).flatten) match {
+        case (Some(Other), None) => routes.MoreInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+        case _ => routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
+      }
     case _ => (userAnswers: UserAnswers) =>
-      routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
+      routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }
 
   override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
