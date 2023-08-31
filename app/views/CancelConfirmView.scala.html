@@ -26,11 +26,11 @@
     h1: components.h1
 )
 
-@(form: Form[_], mode: Mode)(implicit request: DataRequest[_], messages: Messages)
+@(form: Form[_])(implicit request: DataRequest[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("cancelConfirm.title"))) {
 
-    @formHelper(action = routes.CancelConfirmController.onSubmit(request.ern, request.arc, mode), 'autoComplete -> "off") {
+    @formHelper(action = routes.CancelConfirmController.onSubmit(request.ern, request.arc), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))

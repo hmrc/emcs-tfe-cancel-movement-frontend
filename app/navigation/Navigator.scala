@@ -47,7 +47,7 @@ class Navigator @Inject()(appConfig: AppConfig) extends BaseNavigator {
     case MoreInformationPage => (userAnswers: UserAnswers) =>
       routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
     case CheckYourAnswersPage => (userAnswers: UserAnswers) =>
-      routes.CancelConfirmController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      routes.CancelConfirmController.onPageLoad(userAnswers.ern, userAnswers.arc)
     case CancelConfirmPage => (userAnswers: UserAnswers) =>
       userAnswers.get(CancelConfirmPage) match {
         case Some(true) =>

@@ -20,7 +20,6 @@ import base.SpecBase
 import forms.CancelConfirmFormProvider
 import mocks.MockAppConfig
 import mocks.services.MockUserAnswersService
-import models.NormalMode
 import navigation.{FakeNavigator, Navigator}
 import pages.CancelConfirmPage
 import play.api.Application
@@ -54,12 +53,12 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
       "must render the view" in new Fixture {
 
         running(application) {
-          val request = FakeRequest(GET, routes.CancelConfirmController.onPageLoad(testErn, testArc, NormalMode).url)
+          val request = FakeRequest(GET, routes.CancelConfirmController.onPageLoad(testErn, testArc).url)
 
           val result = route(application, request).value
 
           status(result) mustEqual OK
-          contentAsString(result) mustBe view(form, NormalMode)(dataRequest(request), messages(application)).toString()
+          contentAsString(result) mustBe view(form)(dataRequest(request), messages(application)).toString()
         }
       }
     }
@@ -70,13 +69,13 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
         val boundForm: Form[Boolean] = form.bind(Map("value" -> "test"))
 
         running(application) {
-          val request = FakeRequest(POST, routes.CancelConfirmController.onPageLoad(testErn, testArc, NormalMode).url)
+          val request = FakeRequest(POST, routes.CancelConfirmController.onPageLoad(testErn, testArc).url)
             .withFormUrlEncodedBody(("value", "test"))
 
           val result = route(application, request).value
 
           status(result) mustEqual BAD_REQUEST
-          contentAsString(result) mustBe view(boundForm, NormalMode)(dataRequest(request), messages(application)).toString()
+          contentAsString(result) mustBe view(boundForm)(dataRequest(request), messages(application)).toString()
         }
       }
 
@@ -86,7 +85,7 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
           val updatedAnswers = emptyUserAnswers.set(CancelConfirmPage, true)
           MockUserAnswersService.set(updatedAnswers).returns(Future.successful(updatedAnswers)).once()
 
-          val request = FakeRequest(POST, routes.CancelConfirmController.onSubmit(testErn, testArc, NormalMode).url)
+          val request = FakeRequest(POST, routes.CancelConfirmController.onSubmit(testErn, testArc).url)
             .withFormUrlEncodedBody(("value", "true"))
 
 
@@ -104,7 +103,7 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
           val updatedAnswers = emptyUserAnswers.set(CancelConfirmPage, false)
           MockUserAnswersService.set(updatedAnswers).returns(Future.successful(updatedAnswers)).once()
 
-          val request = FakeRequest(POST, routes.CancelConfirmController.onSubmit(testErn, testArc, NormalMode).url)
+          val request = FakeRequest(POST, routes.CancelConfirmController.onSubmit(testErn, testArc).url)
             .withFormUrlEncodedBody(("value", "false"))
 
           val result = route(application, request).value

@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions._
 import forms.CancelConfirmFormProvider
-import models.Mode
+import models.NormalMode
 import navigation.Navigator
 import pages.CancelConfirmPage
 import play.api.i18n.MessagesApi
@@ -42,18 +42,18 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
                                         view: CancelConfirmView
                                        ) extends BaseNavigationController with AuthActionHelper {
 
-  def onPageLoad(ern: String, arc: String, mode: Mode): Action[AnyContent] =
+  def onPageLoad(ern: String, arc: String): Action[AnyContent] =
     authorisedDataRequestWithCachedMovement(ern, arc) { implicit request =>
-      Ok(view(fillForm(CancelConfirmPage, formProvider()), mode))
+      Ok(view(fillForm(CancelConfirmPage, formProvider())))
     }
 
-  def onSubmit(ern: String, arc: String, mode: Mode): Action[AnyContent] =
+  def onSubmit(ern: String, arc: String): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
       formProvider().bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors))),
         value =>
-          saveAndRedirect(CancelConfirmPage, value, mode)
+          saveAndRedirect(CancelConfirmPage, value, NormalMode)
       )
     }
 }
