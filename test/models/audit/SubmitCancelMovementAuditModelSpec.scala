@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-package models.response.emcsTfe
+package models.audit
 
+import base.SpecBase
+import fixtures.audit.SubmitCancelMovementAuditModelFixtures
 
-import play.api.libs.json.{Format, Json}
+class SubmitCancelMovementAuditModelSpec extends SpecBase with SubmitCancelMovementAuditModelFixtures {
 
-case class ConsignorTraderModel(traderExciseNumber: String,
-                                traderName: String,
-                                address: AddressModel) {
-}
+  "SubmitCancelMovementAuditModel" - {
 
-object ConsignorTraderModel {
+    "should write a correct audit json" - {
 
-  implicit val fmt: Format[ConsignorTraderModel] = Json.format
+      "when a successful submission has occurred" in {
+        submitCancelMovementAuditSuccessful.detail mustBe submitCancelMovementAuditSuccessfulJSON
+      }
+
+      "when a failed to submit has occurred" in {
+        submitCancelMovementAuditFailed.detail mustBe submitCancelMovementAuditFailedJSON
+      }
+    }
+  }
 }

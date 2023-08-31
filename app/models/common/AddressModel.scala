@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package models.requests
+package models.common
 
-import models.UserAnswers
-import models.response.emcsTfe.GetMovementResponse
-import play.api.mvc.WrappedRequest
+import play.api.libs.json.{Format, Json}
 
-case class DataRequest[A](request: MovementRequest[A],
-                          userAnswers: UserAnswers) extends WrappedRequest[A](request) {
+case class AddressModel(streetNumber: Option[String],
+                        street: Option[String],
+                        postcode: Option[String],
+                        city: Option[String])
 
-  val credId: String = request.request.credId
-  val internalId: String = request.internalId
-  val ern: String = request.ern
-  val arc: String = request.arc
-  val movementDetails: GetMovementResponse = request.movementDetails
-
+object AddressModel {
+  implicit val fmt: Format[AddressModel] = Json.format
 }

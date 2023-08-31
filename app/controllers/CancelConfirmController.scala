@@ -19,14 +19,15 @@ package controllers
 import config.AppConfig
 import controllers.actions._
 import forms.CancelConfirmFormProvider
+import handlers.ErrorHandler
 import models.requests.DataRequest
-import models.{ConfirmationDetails, NormalMode}
+import models.{ConfirmationDetails, MissingMandatoryPage, NormalMode}
 import navigation.Navigator
 import pages.{CancelConfirmPage, ConfirmationPage}
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
-import services.UserAnswersService
+import services.{SubmitCancelMovementService, UserAnswersService}
 import views.html.CancelConfirmView
 
 import javax.inject.Inject
@@ -42,7 +43,9 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
                                         override val userAllowList: UserAllowListAction,
                                         formProvider: CancelConfirmFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: CancelConfirmView
+                                        view: CancelConfirmView,
+                                        submissionService: SubmitCancelMovementService,
+                                        errorHandler: ErrorHandler
                                        )(implicit appConfig: AppConfig) extends BaseNavigationController with AuthActionHelper {
 
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
@@ -56,9 +59,15 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
         renderView(BadRequest, _),
         {
           case true =>
-            //TODO: Update to call submission service as part of future story
-            save(ConfirmationPage, ConfirmationDetails("DUMMY_RECEIPT_REFERENCE")).map { answers =>
-              Redirect(navigator.nextPage(CancelConfirmPage, NormalMode, answers))
+            submissionService.submit(ern, arc) flatMap { response =>
+              save(ConfirmationPage, ConfirmationDetails(response.receipt)).map { answers =>
+                Redirect(navigator.nextPage(CancelConfirmPage, NormalMode, answers))
+              }
+            } recover {
+              case _: MissingMandatoryPage =>
+                BadRequest(errorHandler.badRequestTemplate)
+              case _ =>
+                InternalServerError(errorHandler.internalServerErrorTemplate)
             }
           case false =>
             Future.successful(Redirect(appConfig.emcsTfeHomeUrl(Some(ern))))

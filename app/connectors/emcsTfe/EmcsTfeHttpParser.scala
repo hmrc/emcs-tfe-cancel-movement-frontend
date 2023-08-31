@@ -19,7 +19,7 @@ package connectors.emcsTfe
 import connectors.BaseConnectorUtils
 import models.{ErrorResponse, JsonValidationError, UnexpectedDownstreamResponseError}
 import play.api.http.Status.OK
-import play.api.libs.json.Writes
+import play.api.libs.json.{Json, Writes}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -38,6 +38,7 @@ trait EmcsTfeHttpParser[A] extends BaseConnectorUtils[A] {
         }
         case status =>
           logger.warn(s"[read] Unexpected status from emcs-tfe: $status")
+          logger.debug(s"[read] Response body: \n\n${response.body}\n\n")
           Left(UnexpectedDownstreamResponseError)
       }
     }
@@ -46,6 +47,8 @@ trait EmcsTfeHttpParser[A] extends BaseConnectorUtils[A] {
   def get(url: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Either[ErrorResponse, A]] =
     http.GET[Either[ErrorResponse, A]](url)(EmcsTfeReads, hc, ec)
 
-  def post[I](url: String, body: I)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[I]): Future[Either[ErrorResponse, A]] =
+  def post[I](url: String, body: I)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[I]): Future[Either[ErrorResponse, A]] = {
+    logger.debug(s"[post] url: '$url' with body: \n\n${Json.toJson(body)}\n\n")
     http.POST[I, Either[ErrorResponse, A]](url, body)(writes, EmcsTfeReads, hc, ec)
+  }
 }

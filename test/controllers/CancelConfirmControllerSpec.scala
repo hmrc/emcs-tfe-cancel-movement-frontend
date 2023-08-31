@@ -18,34 +18,43 @@ package controllers
 
 import base.SpecBase
 import config.AppConfig
+import fixtures.SubmitCancelMovementFixtures
 import forms.CancelConfirmFormProvider
+import handlers.ErrorHandler
 import mocks.MockAppConfig
-import mocks.services.MockUserAnswersService
-import models.ConfirmationDetails
+import mocks.services.{MockSubmitCancelMovementService, MockUserAnswersService}
+import models.CancelReason.Other
+import models.{ConfirmationDetails, MissingMandatoryPage, SubmitCancelMovementException, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import pages.{CancelConfirmPage, ConfirmationPage}
+import pages.{CancelReasonPage, ConfirmationPage, MoreInformationPage}
 import play.api.Application
 import play.api.data.Form
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.UserAnswersService
+import services.{SubmitCancelMovementService, UserAnswersService}
 import views.html.CancelConfirmView
 
 import scala.concurrent.Future
 
-class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService with MockAppConfig {
+class CancelConfirmControllerSpec extends SpecBase
+  with MockUserAnswersService
+  with MockAppConfig
+  with MockSubmitCancelMovementService
+  with SubmitCancelMovementFixtures {
 
-  trait Fixture {
-    val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).overrides(
+  class Fixture(val userAnswers: Option[UserAnswers] = Some(emptyUserAnswers)) {
+    val application: Application = applicationBuilder(userAnswers).overrides(
       bind[UserAnswersService].toInstance(mockUserAnswersService),
-      bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute))
+      bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute)),
+      bind[SubmitCancelMovementService].toInstance(mockSubmitCancelMovementService)
     ).build()
 
     val formProvider = new CancelConfirmFormProvider()
     val form: Form[Boolean] = formProvider()
     val view: CancelConfirmView = application.injector.instanceOf[CancelConfirmView]
+    val errorHandler = application.injector.instanceOf[ErrorHandler]
     val appConfig = application.injector.instanceOf[AppConfig]
   }
 
@@ -53,7 +62,7 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
 
     "when calling .onPageLoad()" - {
 
-      "must render the view" in new Fixture {
+      "must render the view" in new Fixture() {
 
         running(application) {
           val request = FakeRequest(GET, routes.CancelConfirmController.onPageLoad(testErn, testArc).url)
@@ -68,7 +77,7 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
 
     "when calling .onSubmit()" - {
 
-      "must render view with error when user does not select an option" in new Fixture {
+      "must render view with error when user does not select an option" in new Fixture() {
         val boundForm: Form[Boolean] = form.bind(Map("value" -> "test"))
 
         running(application) {
@@ -82,26 +91,89 @@ class CancelConfirmControllerSpec extends SpecBase with MockUserAnswersService w
         }
       }
 
-      "must redirect to confirmation page when user selects yes" in new Fixture {
+      "when user selects yes" - {
 
-        running(application) {
+        "when valid data exists in order to be able to construct a valid submission" - {
 
-          val updatedAnswers = emptyUserAnswers.set(ConfirmationPage, ConfirmationDetails(testConfirmationReference))
-          MockUserAnswersService.set(updatedAnswers).returns(Future.successful(updatedAnswers)).once()
+          "when submission is successful" - {
 
-          val request =
-            FakeRequest(POST, routes.CancelConfirmController
-              .onSubmit(testErn, testArc).url)
-              .withFormUrlEncodedBody(("value", "true"))
+            "save confirmation page details and redirect to onward route" in new Fixture(Some(
+              emptyUserAnswers
+                .set(CancelReasonPage, Other)
+                .set(MoreInformationPage, Some("foo"))
+            )) {
 
-          val result = route(application, request).value
+              running(application) {
 
-          status(result) mustEqual SEE_OTHER
-          redirectLocation(result) mustBe Some(testOnwardRoute.url)
+                val updatedAnswers = userAnswers.get.set(ConfirmationPage, ConfirmationDetails(testConfirmationReference))
+                MockUserAnswersService.set(updatedAnswers).returns(Future.successful(updatedAnswers)).once()
+                MockSubmitCancelMovementService.submit(testErn, testArc, getMovementResponseModel, userAnswers.get)
+                  .returns(Future.successful(successResponse))
+
+                val request =
+                  FakeRequest(POST, routes.CancelConfirmController
+                    .onSubmit(testErn, testArc).url)
+                    .withFormUrlEncodedBody(("value", "true"))
+
+                val result = route(application, request).value
+
+                status(result) mustEqual SEE_OTHER
+                redirectLocation(result) mustBe Some(testOnwardRoute.url)
+              }
+            }
+          }
+
+          "when submission fails" - {
+
+            "render ISE" in new Fixture(Some(
+              emptyUserAnswers
+                .set(CancelReasonPage, Other)
+                .set(MoreInformationPage, Some("foo"))
+            )) {
+
+              running(application) {
+
+                MockSubmitCancelMovementService.submit(testErn, testArc, getMovementResponseModel, userAnswers.get)
+                  .returns(Future.failed(SubmitCancelMovementException("bang")))
+
+                val request =
+                  FakeRequest(POST, routes.CancelConfirmController
+                    .onSubmit(testErn, testArc).url)
+                    .withFormUrlEncodedBody(("value", "true"))
+
+                val result = route(application, request).value
+
+                status(result) mustBe INTERNAL_SERVER_ERROR
+                contentAsString(result) mustBe errorHandler.internalServerErrorTemplate(request).toString()
+              }
+            }
+          }
+        }
+
+        "when invalid data exists so the submission can NOT be generated" - {
+
+          "must return BadRequest" in new Fixture(Some(emptyUserAnswers)) {
+
+            running(application) {
+
+              MockSubmitCancelMovementService.submit(testErn, testArc, getMovementResponseModel, emptyUserAnswers)
+                .returns(Future.failed(MissingMandatoryPage("bang")))
+
+              val request =
+                FakeRequest(POST, routes.CancelConfirmController
+                  .onSubmit(testErn, testArc).url)
+                  .withFormUrlEncodedBody(("value", "true"))
+
+              val result = route(application, request).value
+
+              status(result) mustBe BAD_REQUEST
+              contentAsString(result) mustBe errorHandler.badRequestTemplate(request).toString()
+            }
+          }
         }
       }
 
-      "must redirect to at a glance page when user selects no" in new Fixture {
+      "must redirect to at a glance page when user selects no" in new Fixture() {
 
         running(application) {
 

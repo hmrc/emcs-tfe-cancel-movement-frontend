@@ -18,11 +18,8 @@ package models.response.emcsTfe
 
 import play.api.libs.json.{Format, Json}
 
-case class AddressModel(streetNumber: Option[String],
-                        street: Option[String],
-                        postcode: Option[String],
-                        city: Option[String])
+case class SubmitCancelMovementResponse(receipt: String, receiptDate: String)
 
-object AddressModel {
-  implicit val fmt: Format[AddressModel] = Json.format
+object SubmitCancelMovementResponse {
+  implicit val format: Format[SubmitCancelMovementResponse] = Json.format
 }
