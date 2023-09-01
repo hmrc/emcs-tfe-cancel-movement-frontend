@@ -29,7 +29,7 @@ object ConfirmationMessages {
     val print: String
     val mayNeedToDoH2: String
     val mayNeedToDoP1: String
-    val emcsOverviewLink: String
+    val returnToAtAGlanceButton: String
     val feedback: String
   }
   object English extends ViewMessages with BaseEnglish {
@@ -40,7 +40,7 @@ object ConfirmationMessages {
     val print: String = "Print this screen to make a record of your submission."
     val mayNeedToDoH2: String = "What you may need to do"
     val mayNeedToDoP1: String = "If you still want to move the goods, you will need to create a new movement with a different local reference number (LRN)."
-    val emcsOverviewLink: String = "Return to EMCS overview"
+    val returnToAtAGlanceButton: String = "Return to at a glance"
     val feedback: String = "What did you think of this service? (opens in new tab) (takes 30 seconds)"
   }
   object Welsh extends ViewMessages with BaseWelsh {
@@ -51,7 +51,7 @@ object ConfirmationMessages {
     val print: String = "Print this screen to make a record of your submission."
     val mayNeedToDoH2: String = "What you may need to do"
     val mayNeedToDoP1: String = "If you still want to move the goods, you will need to create a new movement with a different local reference number (LRN)."
-    val emcsOverviewLink: String = "Return to EMCS overview"
+    val returnToAtAGlanceButton: String = "Return to at a glance"
     val feedback: String = "What did you think of this service? (opens in new tab) (takes 30 seconds)"
   }
 

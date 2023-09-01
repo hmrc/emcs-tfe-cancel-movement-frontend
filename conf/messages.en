@@ -153,6 +153,6 @@ confirmation.mayNeedToDo.h2 = What you may need to do
 confirmation.mayNeedToDo.p1.preLink = If you still want to move the goods, you will need to
 confirmation.mayNeedToDo.p1.link = create a new movement
 confirmation.mayNeedToDo.p1.afterLink = with a different local reference number (LRN).
-confirmation.returnToOverview = Return to EMCS overview
+confirmation.returnToOverview = Return to at a glance
 confirmation.feedback.link = What did you think of this service?
 confirmation.feedback.time = (takes 30 seconds)

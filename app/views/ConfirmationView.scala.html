@@ -64,9 +64,11 @@
         @messages("confirmation.mayNeedToDo.p1.afterLink")
     }
 
-    @p(classes = "govuk-body no-print govuk-!-margin-top-8 govuk-!-margin-bottom-8") {
-        @link(appConfig.emcsTfeHomeUrl(Some(request.ern)), "confirmation.returnToOverview")
-    }
+    @govukButton(
+        ButtonViewModel(messages("confirmation.returnToOverview"))
+                .withCssClass("govuk-!-margin-top-4 no-print")
+                .asLink(appConfig.emcsTfeHomeUrl(Some(request.ern)))
+    )
 
     @p(classes = "govuk-body no-print") {
         @link(
