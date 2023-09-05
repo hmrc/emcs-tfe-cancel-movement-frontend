@@ -17,6 +17,7 @@
 package models.response.emcsTfe
 
 import models.DestinationType
+import models.common.TraderModel
 import play.api.libs.json.{Json, Reads}
 
 import java.time.LocalDate
@@ -26,10 +27,11 @@ case class GetMovementResponse(arc: String,
                                sequenceNumber: Int,
                                destinationType: DestinationType,
                                consigneeTrader: Option[TraderModel],
+                               memberStateCode: Option[String],
                                deliveryPlaceTrader: Option[TraderModel],
                                localReferenceNumber: String,
                                eadStatus: String,
-                               consignorTrader: ConsignorTraderModel,
+                               consignorTrader: TraderModel,
                                dateOfDispatch: LocalDate,
                                journeyTime: String,
                                numberOfItems: Int) {

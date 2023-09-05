@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package models.requests
+package models.submitCancelMovement
 
-import models.UserAnswers
-import models.response.emcsTfe.GetMovementResponse
-import play.api.mvc.WrappedRequest
+import models.{Enumerable, WithName}
 
-case class DataRequest[A](request: MovementRequest[A],
-                          userAnswers: UserAnswers) extends WrappedRequest[A](request) {
+sealed trait SubmitterType
 
-  val credId: String = request.request.credId
-  val internalId: String = request.internalId
-  val ern: String = request.ern
-  val arc: String = request.arc
-  val movementDetails: GetMovementResponse = request.movementDetails
+object SubmitterType extends Enumerable.Implicits {
 
+  case object Consignor extends WithName("1") with SubmitterType
+
+  case object Consignee extends WithName("2") with SubmitterType
+
+  val values: Seq[SubmitterType] = Seq(Consignor, Consignee)
+
+  implicit val enumerable: Enumerable[SubmitterType] =
+    Enumerable(values.map(v => v.toString -> v): _*)
 }

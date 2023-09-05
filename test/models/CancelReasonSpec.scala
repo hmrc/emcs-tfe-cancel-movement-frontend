@@ -22,7 +22,7 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
-import play.api.libs.json.{JsError, JsString, Json}
+import play.api.libs.json.{JsError, JsString, Json, Writes}
 
 class CancelReasonSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
 
@@ -30,7 +30,7 @@ class CancelReasonSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
 
     "must deserialise valid values" in {
 
-      val gen = Gen.oneOf(CancelReason.values.toSeq)
+      val gen = Gen.oneOf(CancelReason.values)
 
       forAll(gen) {
         cancelReason =>
@@ -52,13 +52,24 @@ class CancelReasonSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
 
     "must serialise" in {
 
-      val gen = Gen.oneOf(CancelReason.values.toSeq)
+      val gen = Gen.oneOf(CancelReason.values)
 
       forAll(gen) {
         cancelReason =>
 
           Json.toJson(cancelReason) mustEqual JsString(cancelReason.toString)
       }
+    }
+
+    "have submissionWrites with the correct mapping" in {
+
+      implicit val writes: Writes[CancelReason] = CancelReason.submissionWrites
+
+      Json.toJson[CancelReason](CancelReason.Other) mustBe JsString("0")
+      Json.toJson[CancelReason](CancelReason.ContainsError) mustBe JsString("1")
+      Json.toJson[CancelReason](CancelReason.TransactionInterrupted) mustBe JsString("2")
+      Json.toJson[CancelReason](CancelReason.Duplicate) mustBe JsString("3")
+      Json.toJson[CancelReason](CancelReason.DifferentDispatchDate) mustBe JsString("4")
     }
   }
 }

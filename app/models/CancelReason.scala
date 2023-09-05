@@ -17,6 +17,7 @@
 package models
 
 import play.api.i18n.Messages
+import play.api.libs.json.{JsString, Writes}
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
 
@@ -49,4 +50,12 @@ object CancelReason extends Enumerable.Implicits {
 
   implicit val enumerable: Enumerable[CancelReason] =
     Enumerable(values.map(v => v.toString -> v): _*)
+
+  val submissionWrites: Writes[CancelReason] = Writes {
+    case Other => JsString("0")
+    case ContainsError => JsString("1")
+    case TransactionInterrupted => JsString("2")
+    case Duplicate => JsString("3")
+    case DifferentDispatchDate => JsString("4")
+  }
 }
