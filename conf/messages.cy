@@ -43,7 +43,7 @@ noEnrolment.p3 = If you think you have signed in with the wrong details, sign ou
 
 inactive.title = There is a problem
 inactive.heading = There is a problem
-inactive.p1 = You do not have an active enrollment for the Excise Movement and Control System (EMCS).
+inactive.p1 = You do not have an active enrolment for the Excise Movement and Control System (EMCS).
 inactive.p2 = To use this service you must either:
 inactive.bullet1 = activate EMCS using the activation code that was sent to you by post
 inactive.bullet2.link = re-enrol for EMCS and get a new activation code
@@ -71,13 +71,13 @@ notOnPrivateBeta.notSignedUp.p1.afterLink = if you are not already involved.
 notOnPrivateBeta.notSignedUp.p2 = To take part you must currently submit EMCS receipts using the HMRC platform.
 
 timeout.title = You’re about to be signed out
-timeout.message = For security reasons, you will be signed out of this service in
+timeout.message = For your security, we will sign you out in
 timeout.keepAlive = Stay signed in
 timeout.signOut = Sign out
 
-timeout.timedOut.title = For your security we signed you out
-timeout.timedOut.heading = For your security we signed you out
-timeout.timedOut.p1 = We did not save your answers.
+timeout.timedOut.title = For your security, we signed you out
+timeout.timedOut.heading = For your security, we signed you out
+timeout.timedOut.p1 = We have not saved your answers.
 
 arc.subHeading = Cancellation for {0}
 
@@ -156,3 +156,11 @@ confirmation.mayNeedToDo.p1.afterLink = with a different local reference number 
 confirmation.returnToOverview = Return to at a glance
 confirmation.feedback.link = What did you think of this service?
 confirmation.feedback.time = (takes 30 seconds)
+
+error.internalServerError.title=Sorry, there is a problem with the service
+error.internalServerError.heading=Sorry, there is a problem with the service
+error.internalServerError.message=Try again later.
+error.internalServerError.p1.href.text=Use fallback procedures for the Excise Movement and Control System (EMCS)
+error.internalServerError.p1.href.suffix=if you need to create a movement and the digital service is unavailable.
+error.internalServerError.p2.href.text=Contact the EMCS helpdesk
+error.internalServerError.p2.href.suffix=if you need to speak to someone about your account.
