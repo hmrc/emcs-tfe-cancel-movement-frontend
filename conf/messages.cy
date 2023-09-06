@@ -156,3 +156,11 @@ confirmation.mayNeedToDo.p1.afterLink = with a different local reference number 
 confirmation.returnToOverview = Return to at a glance
 confirmation.feedback.link = What did you think of this service?
 confirmation.feedback.time = (takes 30 seconds)
+
+error.internalServerError.title=Sorry, there is a problem with the service
+error.internalServerError.heading=Sorry, there is a problem with the service
+error.internalServerError.message=Try again later.
+error.internalServerError.p1.href.text=Use fallback procedures for the Excise Movement and Control System (EMCS)
+error.internalServerError.p1.href.suffix=if you need to create a movement and the digital service is unavailable.
+error.internalServerError.p2.href.text=Contact the EMCS helpdesk
+error.internalServerError.p2.href.suffix=if you need to speak to someone about your account.
