@@ -18,11 +18,9 @@ package navigation
 
 import base.SpecBase
 import controllers.routes
-import mocks.MockAppConfig
 import models.CancelReason.{ContainsError, Duplicate, Other}
 import models._
 import pages._
-import play.api.mvc.Call
 
 class NavigatorSpec extends SpecBase {
 

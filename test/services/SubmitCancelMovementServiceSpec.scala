@@ -21,10 +21,10 @@ import fixtures.SubmitCancelMovementFixtures
 import mocks.connectors.MockSubmitCancelMovementConnector
 import mocks.services.MockAuditingService
 import models.CancelReason.Other
-import models.{SubmitCancelMovementException, UnexpectedDownstreamResponseError}
 import models.audit.SubmitCancelMovementAuditModel
 import models.submitCancelMovement.SubmitCancelMovementModel
-import pages.{CancelReasonPage, ChooseGiveMoreInformationPage, MoreInformationPage}
+import models.{SubmitCancelMovementException, UnexpectedDownstreamResponseError}
+import pages.{CancelReasonPage, MoreInformationPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import uk.gov.hmrc.http.HeaderCarrier
