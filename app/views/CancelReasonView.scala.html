@@ -22,6 +22,7 @@
         govukErrorSummary: GovukErrorSummary,
         govukRadios: GovukRadios,
         h1: components.h1,
+        h2: components.h2,
         continue: components.continue
 )
 
@@ -34,6 +35,8 @@
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
         }
+
+@h2((messages("arc.subHeading", request.arc)),"govuk-caption-l")
 
         @govukRadios(
             RadiosViewModel(
@@ -48,7 +51,7 @@
 }
 
 @heading = {
-@h1("cancelReason.heading", Some(messages("arc.subHeading", request.arc)), "govuk-fieldset__heading")
+@h1("cancelReason.heading", None, "govuk-fieldset__heading")
 }
 
 @{
