@@ -25,7 +25,6 @@ object ConfirmationMessages {
     val heading: String
     val title: String
     val delayInformationH2: String
-    val submissionReference: String => String
     val print: String
     val mayNeedToDoH2: String
     val mayNeedToDoP1: String
@@ -36,7 +35,6 @@ object ConfirmationMessages {
     val heading: String = "Cancellation submitted"
     val title: String = titleHelper(heading)
     val delayInformationH2: String = "Cancellation information"
-    val submissionReference: String => String = "Your submission reference is " + _
     val print: String = "Print this screen to make a record of your submission."
     val mayNeedToDoH2: String = "What you may need to do"
     val mayNeedToDoP1: String = "If you still want to move the goods, you will need to create a new movement with a different local reference number (LRN)."
@@ -47,7 +45,6 @@ object ConfirmationMessages {
     val heading: String = "Cancellation submitted"
     val title: String = titleHelper(heading)
     val delayInformationH2: String = "Cancellation information"
-    val submissionReference: String => String = "Your submission reference is " + _
     val print: String = "Print this screen to make a record of your submission."
     val mayNeedToDoH2: String = "What you may need to do"
     val mayNeedToDoP1: String = "If you still want to move the goods, you will need to create a new movement with a different local reference number (LRN)."
