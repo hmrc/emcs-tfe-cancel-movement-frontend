@@ -55,16 +55,16 @@ class SubmitCancelMovementServiceSpec extends SpecBase
 
         val submission = SubmitCancelMovementModel(getMovementResponseModel)(userAnswers)
 
-        MockSubmitCancelMovementConnector.submit(testErn, submission).returns(Future.successful(Right(successResponse)))
+        MockSubmitCancelMovementConnector.submit(testErn, submission).returns(Future.successful(Right(successResponseChRIS)))
 
         MockAuditingService.audit(
           SubmitCancelMovementAuditModel(
             submission,
-            Right(successResponse)
+            Right(successResponseChRIS)
           )(dataRequest(FakeRequest()))
         ).noMoreThanOnce()
 
-        testService.submit(testErn, testArc)(hc, request).futureValue mustBe successResponse
+        testService.submit(testErn, testArc)(hc, request).futureValue mustBe successResponseChRIS
       }
     }
 

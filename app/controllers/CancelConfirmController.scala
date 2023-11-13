@@ -60,6 +60,9 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
         {
           case true =>
             submissionService.submit(ern, arc) flatMap { response =>
+
+              logger.debug(s"[onSubmit] response received from downstream service ${response.downstreamService}: ${response.receipt}")
+
               save(ConfirmationPage, ConfirmationDetails(response.receipt)).map { answers =>
                 Redirect(navigator.nextPage(CancelConfirmPage, NormalMode, answers))
               }

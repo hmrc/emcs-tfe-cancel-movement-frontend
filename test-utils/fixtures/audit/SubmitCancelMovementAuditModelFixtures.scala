@@ -30,7 +30,7 @@ trait SubmitCancelMovementAuditModelFixtures extends BaseFixtures
 
   val submitCancelMovementAuditSuccessful: SubmitCancelMovementAuditModel = SubmitCancelMovementAuditModel(
     submissionRequest = submitCancelMovementModel,
-    submissionResponse = Right(successResponse)
+    submissionResponse = Right(successResponseChRIS)
   )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId), testArc, getMovementResponseModel), emptyUserAnswers))
 
   val submitCancelMovementAuditSuccessfulJSON: JsValue = jsonObjNoNulls(
@@ -45,8 +45,7 @@ trait SubmitCancelMovementAuditModelFixtures extends BaseFixtures
     "cancelReason" -> Json.toJson(submitCancelMovementModel.cancelReason),
     "additionalInformation" -> Json.toJson(submitCancelMovementModel.additionalInformation),
     "status" -> "success",
-    "receipt" -> testConfirmationReference,
-    "receiptDate" -> testReceiptDate
+    "receipt" -> testConfirmationReference
   )
 
   val submitCancelMovementAuditFailed: SubmitCancelMovementAuditModel = SubmitCancelMovementAuditModel(
