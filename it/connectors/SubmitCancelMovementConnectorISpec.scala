@@ -46,7 +46,7 @@ class SubmitCancelMovementConnectorISpec extends AnyFreeSpec
   ".submit" - {
 
     val url = s"/emcs-tfe/cancel-movement/$testErn/$testArc"
-    val body = Json.toJson(successResponseJson)
+    val body = Json.toJson(successResponseChRISJson)
 
     "must return true when the server responds OK" in {
 
@@ -56,7 +56,7 @@ class SubmitCancelMovementConnectorISpec extends AnyFreeSpec
           .willReturn(aResponse().withStatus(OK).withBody(Json.stringify(body)))
       )
 
-      connector.submit("ern", submitCancelMovementModel).futureValue mustBe Right(successResponse)
+      connector.submit("ern", submitCancelMovementModel).futureValue mustBe Right(successResponseChRIS)
     }
 
     "must return false when the server responds NOT_FOUND" in {

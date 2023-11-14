@@ -16,10 +16,16 @@
 
 package models.response.emcsTfe
 
-import play.api.libs.json.{Format, Json}
+import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
-case class SubmitCancelMovementResponse(receipt: String, receiptDate: String)
+case class SubmitCancelMovementResponse(receipt: String, downstreamService: String)
 
 object SubmitCancelMovementResponse {
-  implicit val format: Format[SubmitCancelMovementResponse] = Json.format
+  implicit val reads: Reads[SubmitCancelMovementResponse] =
+    (__ \ "message").read[String].map(SubmitCancelMovementResponse(_, "EIS")) or
+      (__ \ "receipt").read[String].map(SubmitCancelMovementResponse(_, "ChRIS"))
+
+  implicit val writes: OWrites[SubmitCancelMovementResponse] =
+    (o: SubmitCancelMovementResponse) => Json.obj("receipt" -> o.receipt)
 }

@@ -146,7 +146,6 @@ checkYourAnswers.submit = Cancel movement
 confirmation.title = Cancellation submitted
 confirmation.heading = Cancellation submitted
 confirmation.delayInformation.h2 = Cancellation information
-confirmation.reference = Your submission reference is
 confirmation.print.link = Print this screen
 confirmation.print.afterLink = to make a record of your submission.
 confirmation.mayNeedToDo.h2 = What you may need to do

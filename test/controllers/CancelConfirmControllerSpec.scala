@@ -108,7 +108,7 @@ class CancelConfirmControllerSpec extends SpecBase
                 val updatedAnswers = userAnswers.get.set(ConfirmationPage, ConfirmationDetails(testConfirmationReference))
                 MockUserAnswersService.set(updatedAnswers).returns(Future.successful(updatedAnswers)).once()
                 MockSubmitCancelMovementService.submit(testErn, testArc, getMovementResponseModel, userAnswers.get)
-                  .returns(Future.successful(successResponse))
+                  .returns(Future.successful(successResponseChRIS))
 
                 val request =
                   FakeRequest(POST, routes.CancelConfirmController

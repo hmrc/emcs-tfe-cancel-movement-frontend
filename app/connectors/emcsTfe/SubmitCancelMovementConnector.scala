@@ -30,7 +30,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class SubmitCancelMovementConnector @Inject()(val http: HttpClient,
                                               config: AppConfig) extends EmcsTfeHttpParser[SubmitCancelMovementResponse] {
 
-  override implicit val reads: Reads[SubmitCancelMovementResponse] = SubmitCancelMovementResponse.format
+  override implicit val reads: Reads[SubmitCancelMovementResponse] = SubmitCancelMovementResponse.reads
 
   lazy val baseUrl: String = config.emcsTfeBaseUrl
 
