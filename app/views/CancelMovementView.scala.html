@@ -14,6 +14,8 @@
  * limitations under the License.
  *@
 
+@import models.requests.DataRequest
+
 @this(
         layout: templates.Layout,
         govukButton: GovukButton,
@@ -23,9 +25,9 @@
         form: FormWithCSRF
 )
 
-@(arc: String, action: Call)(implicit request: Request[_], messages: Messages)
+@(arc: String, action: Call)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(messages("cancelMovement.title"))) {
+@layout(pageTitle = titleNoForm(messages("cancelMovement.title")), maybeShowActiveTrader = maybeShowActiveTrader(request)) {
 
     @h1("cancelMovement.title", Some(messages("arc.subHeading", arc)))
 

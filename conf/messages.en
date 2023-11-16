@@ -79,6 +79,8 @@ timeout.timedOut.title = For your security, we signed you out
 timeout.timedOut.heading = For your security, we signed you out
 timeout.timedOut.p1 = We have not saved your answers.
 
+activeTrader.link = Change trader type
+
 arc.subHeading = Cancellation for {0}
 
 error.browser.title.prefix = Error:

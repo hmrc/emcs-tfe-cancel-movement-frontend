@@ -16,6 +16,7 @@
 
 package controllers
 
+import controllers.actions._
 import models.NormalMode
 import navigation.Navigator
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -26,17 +27,22 @@ import views.html.CancelMovementView
 import javax.inject.Inject
 
 class CancelMovementController @Inject()(override val messagesApi: MessagesApi,
-                                         override val navigator: Navigator,
                                          override val userAnswersService: UserAnswersService,
+                                         override val navigator: Navigator,
+                                         override val auth: AuthAction,
+                                         override val withMovement: MovementAction,
+                                         override val getData: DataRetrievalAction,
+                                         override val requireData: DataRequiredAction,
+                                         override val userAllowList: UserAllowListAction,
                                          val controllerComponents: MessagesControllerComponents,
                                          view: CancelMovementView
-                                        ) extends BaseNavigationController with I18nSupport {
+                                        ) extends BaseNavigationController with AuthActionHelper with I18nSupport {
 
-  def onPageLoad(ern: String, arc: String): Action[AnyContent] = Action { implicit request =>
+  def onPageLoad(ern: String, arc: String): Action[AnyContent] = authorisedDataRequestWithCachedMovement(ern, arc) { implicit request =>
     Ok(view(arc, controllers.routes.CancelMovementController.onSubmit(ern, arc)))
   }
 
-  def onSubmit(ern: String, arc: String): Action[AnyContent] = Action {
+  def onSubmit(ern: String, arc: String): Action[AnyContent] = authorisedDataRequestWithCachedMovement(ern, arc) { _ =>
     Redirect(controllers.routes.CancelReasonController.onPageLoad(ern, arc, NormalMode))
   }
 }
