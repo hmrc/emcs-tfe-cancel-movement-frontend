@@ -25,7 +25,7 @@
 
 
 @()(implicit request: Request[_], messages: Messages)
-@layout(pageTitle = titleNoForm(messages("error.internalServerError.title")), showBackLink = false, timeout = true) {
+@layout(pageTitle = titleNoForm(messages("error.internalServerError.title")), maybeShowActiveTrader = None, showBackLink = false, timeout = true) {
 
     <h1 class="govuk-heading-xl">@messages("error.internalServerError.heading")</h1>
 

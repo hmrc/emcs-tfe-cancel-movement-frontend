@@ -31,7 +31,7 @@ trait SubmitCancelMovementAuditModelFixtures extends BaseFixtures
   val submitCancelMovementAuditSuccessful: SubmitCancelMovementAuditModel = SubmitCancelMovementAuditModel(
     submissionRequest = submitCancelMovementModel,
     submissionResponse = Right(successResponseChRIS)
-  )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId), testArc, getMovementResponseModel), emptyUserAnswers))
+  )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false), testArc, getMovementResponseModel), emptyUserAnswers, testMinTraderKnownFacts))
 
   val submitCancelMovementAuditSuccessfulJSON: JsValue = jsonObjNoNulls(
     "credentialId" -> testCredId,
@@ -51,7 +51,15 @@ trait SubmitCancelMovementAuditModelFixtures extends BaseFixtures
   val submitCancelMovementAuditFailed: SubmitCancelMovementAuditModel = SubmitCancelMovementAuditModel(
     submissionRequest = submitCancelMovementModel,
     submissionResponse = Left(UnexpectedDownstreamResponseError)
-  )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId), testArc, getMovementResponseModel), emptyUserAnswers))
+  )(DataRequest(
+    MovementRequest(
+      UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false),
+      testArc,
+      getMovementResponseModel
+    ),
+    emptyUserAnswers,
+    testMinTraderKnownFacts
+  ))
 
   val submitCancelMovementAuditFailedJSON: JsValue = jsonObjNoNulls(
     "credentialId" -> testCredId,

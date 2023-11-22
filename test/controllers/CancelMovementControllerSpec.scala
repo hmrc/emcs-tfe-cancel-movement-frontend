@@ -20,10 +20,8 @@ import base.SpecBase
 import mocks.services.MockUserAnswersService
 import models.NormalMode
 import play.api.http.Status.{OK, SEE_OTHER}
-import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{GET, POST, contentAsString, defaultAwaitTimeout, redirectLocation, route, running, status, writeableOf_AnyContentAsEmpty}
-import services.UserAnswersService
 import views.html.CancelMovementView
 
 class CancelMovementControllerSpec extends SpecBase with MockUserAnswersService {
@@ -34,9 +32,7 @@ class CancelMovementControllerSpec extends SpecBase with MockUserAnswersService 
 
       "must render the view" in {
 
-        val application = applicationBuilder(userAnswers = None).overrides(
-          bind[UserAnswersService].toInstance(mockUserAnswersService)
-        ).build()
+        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
         val view = application.injector.instanceOf[CancelMovementView]
 
@@ -46,7 +42,7 @@ class CancelMovementControllerSpec extends SpecBase with MockUserAnswersService 
           val result = route(application, request).value
 
           status(result) mustEqual OK
-          contentAsString(result) mustBe view(testArc, routes.CancelMovementController.onSubmit(testErn, testArc))(request, messages(application)).toString()
+          contentAsString(result) mustBe view(testArc, routes.CancelMovementController.onSubmit(testErn, testArc))(dataRequest(request), messages(application)).toString()
         }
       }
     }
@@ -55,9 +51,7 @@ class CancelMovementControllerSpec extends SpecBase with MockUserAnswersService 
 
       "must redirect to next page" in {
 
-        val application = applicationBuilder(userAnswers = None).overrides(
-          bind[UserAnswersService].toInstance(mockUserAnswersService)
-        ).build()
+        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
         running(application) {
           val request = FakeRequest(POST, routes.CancelMovementController.onSubmit(testErn, testArc).url)
