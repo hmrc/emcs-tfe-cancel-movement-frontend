@@ -4,14 +4,14 @@ object AppDependencies {
 
   import play.core.PlayVersion
 
-  val playSuffix = "-play-28"
+  val playSuffix = "-play-30"
   val scalatestVersion = "3.2.15"
-  val hmrcBootstrapVersion = "7.23.0"
-  val hmrcMongoVersion = "1.3.0"
+  val hmrcBootstrapVersion = "8.4.0"
+  val hmrcMongoVersion = "1.6.0"
 
   val compile = Seq(
     play.sbt.PlayImport.ws,
-    "uk.gov.hmrc"             %%  "play-frontend-hmrc"                % s"7.27.0$playSuffix",
+    "uk.gov.hmrc"             %% s"play-frontend-hmrc$playSuffix"     % "8.3.0",
     "uk.gov.hmrc"             %% s"bootstrap-frontend$playSuffix"     %  hmrcBootstrapVersion,
     "uk.gov.hmrc.mongo"       %% s"hmrc-mongo$playSuffix"             %  hmrcMongoVersion,
     "com.google.inject"       %   "guice"                             % "5.1.0"
@@ -26,7 +26,7 @@ object AppDependencies {
     "org.scalamock"           %%  "scalamock"                         % "5.2.0",
     "org.pegdown"             %   "pegdown"                           % "1.6.0",
     "org.jsoup"               %   "jsoup"                             % "1.15.4",
-    "com.typesafe.play"       %%  "play-test"                         % PlayVersion.current,
+    "org.playframework"       %%  "play-test"                         % PlayVersion.current,
     "uk.gov.hmrc.mongo"       %% s"hmrc-mongo-test$playSuffix"        % hmrcMongoVersion,
     "com.vladsch.flexmark"    %   "flexmark-all"                      % "0.62.2"
   ).map(_ % "test, it")
