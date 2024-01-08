@@ -2,6 +2,8 @@ import play.sbt.routes.RoutesKeys
 
 lazy val appName: String = "emcs-tfe-cancel-movement-frontend"
 
+ThisBuild / scalaVersion := "2.13.12"
+
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
@@ -11,7 +13,6 @@ lazy val root = (project in file("."))
   .settings(majorVersion := 0)
   .settings(ThisBuild / useSuperShell := false)
   .settings(
-    scalaVersion := "2.13.8",
     name := appName,
     RoutesKeys.routesImport ++= Seq(
       "models._",

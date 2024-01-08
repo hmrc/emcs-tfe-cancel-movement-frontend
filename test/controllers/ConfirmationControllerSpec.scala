@@ -20,6 +20,7 @@ import base.SpecBase
 import models.CancelReason.Duplicate
 import models.{ConfirmationDetails, UserAnswers}
 import pages.{CancelReasonPage, ChooseGiveMoreInformationPage, ConfirmationPage}
+import play.api.i18n.Messages
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.ConfirmationView
@@ -33,7 +34,7 @@ class ConfirmationControllerSpec extends SpecBase {
   )) {
     val application = applicationBuilder(userAnswers).build()
     val view = application.injector.instanceOf[ConfirmationView]
-    implicit val msgs = messages(application)
+    implicit val msgs: Messages = messages(application)
   }
 
   lazy val getRequest = FakeRequest(GET, routes.ConfirmationController.onPageLoad(testErn, testArc).url)
