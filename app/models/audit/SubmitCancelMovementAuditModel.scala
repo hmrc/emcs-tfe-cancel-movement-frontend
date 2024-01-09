@@ -28,7 +28,7 @@ case class SubmitCancelMovementAuditModel(
                                            submissionResponse: Either[ErrorResponse, SubmitCancelMovementResponse]
                                          )(implicit request: DataRequest[_]) extends AuditModel with JsonOptionFormatter {
 
-  override val auditType: String = "cancelMovementSubmission"
+  override val auditType: String = "CancelMovementSubmission"
 
   override val detail: JsValue = jsonObjNoNulls(fields =
     "credentialId" -> request.credId,
@@ -37,7 +37,7 @@ case class SubmitCancelMovementAuditModel(
     "arc" -> submissionRequest.arc,
     "sequenceNumber" -> submissionRequest.sequenceNumber,
     "consigneeTrader" -> Json.toJson(submissionRequest.consigneeTrader),
-    "destinationType" -> Json.toJson(submissionRequest.destinationType),
+    "destinationType" -> Json.toJson(submissionRequest.destinationType.auditValue),
     "memberStateCode" -> Json.toJson(submissionRequest.memberStateCode),
     "cancelReason" -> Json.toJson(submissionRequest.cancelReason),
     "additionalInformation" -> Json.toJson(submissionRequest.additionalInformation)

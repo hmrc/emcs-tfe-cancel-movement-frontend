@@ -20,6 +20,7 @@ import fixtures.{BaseFixtures, GetMovementResponseFixtures, SubmitCancelMovement
 import models.UnexpectedDownstreamResponseError
 import models.audit.SubmitCancelMovementAuditModel
 import models.requests.{DataRequest, MovementRequest, UserRequest}
+import models.submitCancelMovement.SubmitCancelMovementModel
 import play.api.libs.json.{JsValue, Json}
 import play.api.test.FakeRequest
 import utils.JsonOptionFormatter.jsonObjNoNulls
@@ -28,50 +29,52 @@ trait SubmitCancelMovementAuditModelFixtures extends BaseFixtures
   with SubmitCancelMovementFixtures
   with GetMovementResponseFixtures {
 
-  val submitCancelMovementAuditSuccessful: SubmitCancelMovementAuditModel = SubmitCancelMovementAuditModel(
-    submissionRequest = submitCancelMovementModel,
-    submissionResponse = Right(successResponseChRIS)
-  )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false), testArc, getMovementResponseModel), emptyUserAnswers, testMinTraderKnownFacts))
+  def submitCancelMovementAuditSuccessful(model: SubmitCancelMovementModel = submitCancelMovementModel): SubmitCancelMovementAuditModel =
+    SubmitCancelMovementAuditModel(
+      submissionRequest = model,
+      submissionResponse = Right(successResponseChRIS)
+    )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false), testArc, getMovementResponseModel), emptyUserAnswers, testMinTraderKnownFacts))
 
-  val submitCancelMovementAuditSuccessfulJSON: JsValue = jsonObjNoNulls(
+  def submitCancelMovementAuditSuccessfulJSON(model: SubmitCancelMovementModel = submitCancelMovementModel): JsValue = jsonObjNoNulls(
     "credentialId" -> testCredId,
     "internalId" -> testInternalId,
     "ern" -> testErn,
     "arc" -> testArc,
     "sequenceNumber" -> 1,
-    "consigneeTrader" -> Json.toJson(submitCancelMovementModel.consigneeTrader),
-    "destinationType" -> Json.toJson(submitCancelMovementModel.destinationType),
-    "memberStateCode" -> Json.toJson(submitCancelMovementModel.memberStateCode),
-    "cancelReason" -> Json.toJson(submitCancelMovementModel.cancelReason),
-    "additionalInformation" -> Json.toJson(submitCancelMovementModel.additionalInformation),
+    "consigneeTrader" -> Json.toJson(model.consigneeTrader),
+    "destinationType" -> Json.toJson(model.destinationType.auditValue),
+    "memberStateCode" -> Json.toJson(model.memberStateCode),
+    "cancelReason" -> Json.toJson(model.cancelReason),
+    "additionalInformation" -> Json.toJson(model.additionalInformation),
     "status" -> "success",
     "receipt" -> testConfirmationReference
   )
 
-  val submitCancelMovementAuditFailed: SubmitCancelMovementAuditModel = SubmitCancelMovementAuditModel(
-    submissionRequest = submitCancelMovementModel,
-    submissionResponse = Left(UnexpectedDownstreamResponseError)
-  )(DataRequest(
-    MovementRequest(
-      UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false),
-      testArc,
-      getMovementResponseModel
-    ),
-    emptyUserAnswers,
-    testMinTraderKnownFacts
-  ))
+  def submitCancelMovementAuditFailed(model: SubmitCancelMovementModel = submitCancelMovementModel): SubmitCancelMovementAuditModel =
+    SubmitCancelMovementAuditModel(
+      submissionRequest = model,
+      submissionResponse = Left(UnexpectedDownstreamResponseError)
+    )(DataRequest(
+      MovementRequest(
+        UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false),
+        testArc,
+        getMovementResponseModel
+      ),
+      emptyUserAnswers,
+      testMinTraderKnownFacts
+    ))
 
-  val submitCancelMovementAuditFailedJSON: JsValue = jsonObjNoNulls(
+  def submitCancelMovementAuditFailedJSON(model: SubmitCancelMovementModel = submitCancelMovementModel): JsValue = jsonObjNoNulls(
     "credentialId" -> testCredId,
     "internalId" -> testInternalId,
     "ern" -> testErn,
     "arc" -> testArc,
     "sequenceNumber" -> 1,
-    "consigneeTrader" -> Json.toJson(submitCancelMovementModel.consigneeTrader),
-    "destinationType" -> Json.toJson(submitCancelMovementModel.destinationType),
-    "memberStateCode" -> Json.toJson(submitCancelMovementModel.memberStateCode),
-    "cancelReason" -> Json.toJson(submitCancelMovementModel.cancelReason),
-    "additionalInformation" -> Json.toJson(submitCancelMovementModel.additionalInformation),
+    "consigneeTrader" -> Json.toJson(model.consigneeTrader),
+    "destinationType" -> Json.toJson(model.destinationType.auditValue),
+    "memberStateCode" -> Json.toJson(model.memberStateCode),
+    "cancelReason" -> Json.toJson(model.cancelReason),
+    "additionalInformation" -> Json.toJson(model.additionalInformation),
     "status" -> "failed",
     "failedMessage" -> "Unexpected downstream response status"
   )

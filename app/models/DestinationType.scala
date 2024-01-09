@@ -16,20 +16,42 @@
 
 package models
 
-sealed trait DestinationType
+sealed trait DestinationType {
+  val auditValue: String
+}
 
 object DestinationType extends Enumerable.Implicits {
 
-  case object TaxWarehouse extends WithName("1") with DestinationType
-  case object RegisteredConsignee extends WithName("2") with DestinationType
-  case object TemporaryRegisteredConsignee extends WithName("3") with DestinationType
-  case object DirectDelivery extends WithName("4") with DestinationType
-  case object ExemptedOrganisations extends WithName("5") with DestinationType
-  case object Export extends WithName("6") with DestinationType
-  case object UnknownDestination extends WithName("8") with DestinationType
-  case object CertifiedConsignee extends WithName("9") with DestinationType
-  case object TemporaryCertifiedConsignee extends WithName("10") with DestinationType
-  case object ReturnToThePlaceOfDispatchOfTheConsignor extends WithName("11") with DestinationType
+  case object TaxWarehouse extends WithName("1") with DestinationType {
+    override val auditValue: String = "Tax warehouse"
+  }
+  case object RegisteredConsignee extends WithName("2") with DestinationType {
+    override val auditValue: String = "Registered consignee"
+  }
+  case object TemporaryRegisteredConsignee extends WithName("3") with DestinationType {
+    override val auditValue: String = "Temporary registered consignee"
+  }
+  case object DirectDelivery extends WithName("4") with DestinationType {
+    override val auditValue: String = "Direct delivery"
+  }
+  case object ExemptedOrganisations extends WithName("5") with DestinationType {
+    override val auditValue: String = "Exempted consignee"
+  }
+  case object Export extends WithName("6") with DestinationType {
+    override val auditValue: String = "Export"
+  }
+  case object UnknownDestination extends WithName("8") with DestinationType {
+    override val auditValue: String = "Unknown destination (consignee unknown)"
+  }
+  case object CertifiedConsignee extends WithName("9") with DestinationType {
+    override val auditValue: String = "Certified Consignee"
+  }
+  case object TemporaryCertifiedConsignee extends WithName("10") with DestinationType {
+    override val auditValue: String = "Temporary Certified Consignee"
+  }
+  case object ReturnToThePlaceOfDispatchOfTheConsignor extends WithName("11") with DestinationType {
+    override val auditValue: String = "Return To The Place Of Dispatch Of The Consignor"
+  }
 
   val values: Seq[DestinationType] = Seq(
     TaxWarehouse,
