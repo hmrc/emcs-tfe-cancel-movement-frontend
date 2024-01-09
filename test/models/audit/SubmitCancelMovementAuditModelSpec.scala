@@ -18,6 +18,8 @@ package models.audit
 
 import base.SpecBase
 import fixtures.audit.SubmitCancelMovementAuditModelFixtures
+import models.DestinationType
+import models.submitCancelMovement.SubmitCancelMovementModel
 
 class SubmitCancelMovementAuditModelSpec extends SpecBase with SubmitCancelMovementAuditModelFixtures {
 
@@ -25,12 +27,21 @@ class SubmitCancelMovementAuditModelSpec extends SpecBase with SubmitCancelMovem
 
     "should write a correct audit json" - {
 
-      "when a successful submission has occurred" in {
-        submitCancelMovementAuditSuccessful.detail mustBe submitCancelMovementAuditSuccessfulJSON
-      }
+      DestinationType.values.foreach { destinationType =>
 
-      "when a failed to submit has occurred" in {
-        submitCancelMovementAuditFailed.detail mustBe submitCancelMovementAuditFailedJSON
+        val model: SubmitCancelMovementModel = submitCancelMovementModel.copy(destinationType = destinationType)
+
+        s"for destination type of: $destinationType" - {
+          "when a successful submission has occurred" in {
+            submitCancelMovementAuditSuccessful(model).auditType mustBe "CancelMovementSubmission"
+            submitCancelMovementAuditSuccessful(model).detail mustBe submitCancelMovementAuditSuccessfulJSON(model)
+          }
+
+          "when a failed to submit has occurred" in {
+            submitCancelMovementAuditFailed(model).auditType mustBe "CancelMovementSubmission"
+            submitCancelMovementAuditFailed(model).detail mustBe submitCancelMovementAuditFailedJSON(model)
+          }
+        }
       }
     }
   }
