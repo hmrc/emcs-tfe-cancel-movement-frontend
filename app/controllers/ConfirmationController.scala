@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions._
 import navigation.Navigator
-import pages.{CancelReasonPage, ConfirmationPage}
+import pages.ConfirmationPage
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
@@ -43,10 +43,7 @@ class ConfirmationController @Inject()(
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
       withAnswer(ConfirmationPage) { _ =>
-        withAnswer(CancelReasonPage) { reason =>
-          logger.info(s"[onPageLoad] CancelReason: [$reason]")
-          Future.successful(Ok(view()))
-        }
+        Future.successful(Ok(view()))
       }
     }
 
