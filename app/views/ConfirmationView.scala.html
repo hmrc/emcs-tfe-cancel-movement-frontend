@@ -31,7 +31,7 @@
         appConfig: AppConfig
 )
 
-@(confirmationDetails: ConfirmationDetails)(implicit request: DataRequest[_], messages: Messages)
+@()(implicit request: DataRequest[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("confirmation.title")), maybeShowActiveTrader = maybeShowActiveTrader(request), showBackLink = false) {
 

@@ -43,9 +43,7 @@ class ConfirmationViewSpec extends ViewSpecBase with ViewBehaviours {
         implicit lazy val request: DataRequest[AnyContentAsEmpty.type] = dataRequest(FakeRequest(), emptyUserAnswers)
 
         implicit val doc: Document = Jsoup.parse(
-          view(
-            ConfirmationDetails(receipt = testConfirmationReference)
-          ).toString())
+          view().toString())
 
         behave like pageWithExpectedElementsAndMessages(Seq(
           Selectors.title -> messagesForLanguage.title,
