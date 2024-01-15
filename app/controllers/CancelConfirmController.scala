@@ -23,7 +23,7 @@ import handlers.ErrorHandler
 import models.requests.DataRequest
 import models.{ConfirmationDetails, MissingMandatoryPage, NormalMode}
 import navigation.Navigator
-import pages.{CancelConfirmPage, ConfirmationPage}
+import pages.{CancelConfirmPage, CancelReasonPage, ConfirmationPage}
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -62,6 +62,11 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
             submissionService.submit(ern, arc) flatMap { response =>
 
               logger.debug(s"[onSubmit] response received from downstream service ${response.downstreamService}: ${response.receipt}")
+
+
+              request.userAnswers.get(CancelReasonPage).foreach { reason =>
+                logger.info(s"[onPageLoad] CancelReason: [$reason]")
+              }
 
               save(ConfirmationPage, ConfirmationDetails(response.receipt)).map { answers =>
                 Redirect(navigator.nextPage(CancelConfirmPage, NormalMode, answers))
