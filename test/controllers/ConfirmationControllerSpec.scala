@@ -51,7 +51,7 @@ class ConfirmationControllerSpec extends SpecBase {
           val result = route(application, getRequest).value
 
           status(result) mustEqual OK
-          contentAsString(result) mustEqual view(ConfirmationDetails(receipt = testConfirmationReference)).toString
+          contentAsString(result) mustEqual view().toString
         }
       }
     }
