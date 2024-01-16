@@ -21,26 +21,18 @@ import fixtures.i18n
 object CancelMovementMessages {
 
   sealed trait ViewMessages { _: i18n =>
+    val heading = "Cancel this movement"
     val title: String
-    val heading: String
-    val paragraph1: String
-    val paragraph2: String
-    val paragraph3: String
+    val paragraph1 = "You can choose to cancel a movement up to the date and time recorded on the electronic administrative document (eAD). If the date and time on the eAD has passed, you can choose to submit a change of destination."
+    val paragraph2 = "When you cancel a movement, its eAD and administrative reference code (ARC) are saved and marked as cancelled."
+    val paragraph3 = "If you still want to move the goods, you will need to create a new movement."
   }
 
   object English extends ViewMessages with BaseEnglish {
-    override val heading = "Cancel this movement"
-    override val title = titleHelper(heading)
-    override val paragraph1 = "You can choose to cancel a movement before the goods have left your premises."
-    override val paragraph2 = "When you cancel a movement, its electronic administrative document (eAD) and administrative reference code (ARC) are saved and marked as cancelled."
-    override val paragraph3 = "If you still want to move the goods, you will need to create a new movement."
+    val title: String = titleHelper(heading)
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
-    override val heading = "Cancel this movement"
-    override val title = titleHelper(heading)
-    override val paragraph1 = "You can choose to cancel a movement before the goods have left your premises."
-    override val paragraph2 = "When you cancel a movement, its electronic administrative document (eAD) and administrative reference code (ARC) are saved and marked as cancelled."
-    override val paragraph3 = "If you still want to move the goods, you will need to create a new movement."
+    val title: String = titleHelper(heading)
   }
 }
