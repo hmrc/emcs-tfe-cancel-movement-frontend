@@ -45,17 +45,4 @@ object CancelReasonMessages {
     override val cyaLabel = "Reason for cancelling"
     override val cyaChangeHidden = "reason for cancel"
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val heading = "Why are you cancelling this movement?"
-    override val title = titleHelper(heading)
-    override val radio1 = "Commercial transaction interrupted"
-    override val radio2 = "Duplicate electronic administrative document (eAD)"
-    override val radio3 = "Goods were not dispatched on the date given in the eAD"
-    override val radio4 = "The eAD contains an error"
-    override val radio5 = "Other"
-    override val errorRequired = "Select why you are cancelling this movement"
-    override val cyaLabel = "Reason for cancelling"
-    override val cyaChangeHidden = "reason for cancel"
-  }
 }

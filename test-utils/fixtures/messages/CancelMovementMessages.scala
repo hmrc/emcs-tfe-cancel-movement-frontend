@@ -31,8 +31,4 @@ object CancelMovementMessages {
   object English extends ViewMessages with BaseEnglish {
     val title: String = titleHelper(heading)
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    val title: String = titleHelper(heading)
-  }
 }

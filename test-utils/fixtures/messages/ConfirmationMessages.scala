@@ -41,15 +41,5 @@ object ConfirmationMessages {
     val returnToAtAGlanceButton: String = "Return to at a glance"
     val feedback: String = "What did you think of this service? (opens in new tab) (takes 30 seconds)"
   }
-  object Welsh extends ViewMessages with BaseWelsh {
-    val heading: String = "Cancellation submitted"
-    val title: String = titleHelper(heading)
-    val delayInformationH2: String = "Cancellation information"
-    val print: String = "Print this screen to make a record of your submission."
-    val mayNeedToDoH2: String = "What you may need to do"
-    val mayNeedToDoP1: String = "If you still want to move the goods, you will need to create a new movement with a different local reference number (LRN)."
-    val returnToAtAGlanceButton: String = "Return to at a glance"
-    val feedback: String = "What did you think of this service? (opens in new tab) (takes 30 seconds)"
-  }
 
 }

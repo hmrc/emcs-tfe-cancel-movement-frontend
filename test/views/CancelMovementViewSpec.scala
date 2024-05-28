@@ -32,7 +32,7 @@ class CancelMovementViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "CancelMovementView" - {
 
-    Seq(CancelMovementMessages.English, CancelMovementMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(CancelMovementMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

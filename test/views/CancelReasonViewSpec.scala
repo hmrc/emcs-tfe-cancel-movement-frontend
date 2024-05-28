@@ -33,7 +33,7 @@ class CancelReasonViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "CancelReasonView" - {
 
-    Seq(CancelReasonMessages.English, CancelReasonMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(CancelReasonMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

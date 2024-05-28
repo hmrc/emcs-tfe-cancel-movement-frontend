@@ -33,7 +33,7 @@ class ChooseGiveMoreInformationViewSpec extends ViewSpecBase with ViewBehaviours
 
   "ChooseGiveMoreInformationView" - {
 
-    Seq(ChooseGiveMoreInformationMessages.English, ChooseGiveMoreInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(ChooseGiveMoreInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

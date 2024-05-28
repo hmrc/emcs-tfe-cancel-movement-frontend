@@ -32,9 +32,4 @@ object TimeoutMessages {
     override val p1 = "We have not saved your answers."
   }
 
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val title = "For your security, we signed you out"
-    override val heading = "For your security, we signed you out"
-    override val p1 = "We have not saved your answers."
-  }
 }

@@ -33,7 +33,7 @@ class MoreInformationViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "MoreInformationView" - {
 
-    Seq(MoreInformationMessages.English, MoreInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(MoreInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

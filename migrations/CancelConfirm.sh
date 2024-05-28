@@ -20,14 +20,6 @@ echo "cancelConfirm.checkYourAnswersLabel = cancelConfirm" >> ../conf/messages.e
 echo "cancelConfirm.error.required = Select yes if cancelConfirm" >> ../conf/messages.en
 echo "cancelConfirm.change.hidden = CancelConfirm" >> ../conf/messages.en
 
-echo "Adding messages to Welsh conf.messages"
-echo "" >> ../conf/messages.cy
-echo "cancelConfirm.title = cancelConfirm" >> ../conf/messages.cy
-echo "cancelConfirm.heading = cancelConfirm" >> ../conf/messages.cy
-echo "cancelConfirm.checkYourAnswersLabel = cancelConfirm" >> ../conf/messages.cy
-echo "cancelConfirm.error.required = Select yes if cancelConfirm" >> ../conf/messages.cy
-echo "cancelConfirm.change.hidden = CancelConfirm" >> ../conf/messages.cy
-
 echo "Adding to UserAnswersEntryGenerators"
 awk '/trait UserAnswersEntryGenerators/ {\
     print;\
