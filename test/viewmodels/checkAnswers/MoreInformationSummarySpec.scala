@@ -37,7 +37,7 @@ class MoreInformationSummarySpec extends SpecBase with Matchers {
 
   ".row" - {
 
-    Seq(MoreInformationMessages.English, MoreInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(MoreInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

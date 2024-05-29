@@ -48,7 +48,7 @@ class CancelReasonFormProviderSpec extends OptionFieldBehaviours with GuiceOneAp
 
   "Error Messages" - {
 
-    Seq(CancelReasonMessages.English, CancelReasonMessages.Welsh) foreach { messagesForLanguage =>
+    Seq(CancelReasonMessages.English) foreach { messagesForLanguage =>
 
       implicit val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(messagesForLanguage.lang))
 

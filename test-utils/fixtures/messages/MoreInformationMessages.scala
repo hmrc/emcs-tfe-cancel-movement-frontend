@@ -48,17 +48,4 @@ object MoreInformationMessages {
     override val notProvided = "Not provided"
   }
 
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val heading = "Give more information about why you are cancelling this movement"
-    override val title = titleHelper(heading)
-    override val hint = "Give information (optional)."
-    override val errorLength = "Information must be 350 characters or less"
-    override val errorRequired = "Enter information"
-    override val errorXss = "Information must not include < and > and : and ;"
-    override val errorCharacter = "Information must contain letters or numbers"
-    override val cyaLabel = "More information about cancelling"
-    override val cyaChangeHidden = "information about cancelling"
-    override val cyaAddInformation = "Give more information about cancelling this movement (optional)"
-    override val notProvided = "Not provided"
-  }
 }

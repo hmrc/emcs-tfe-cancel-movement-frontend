@@ -33,7 +33,7 @@ class CancelConfirmViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "CancelConfirmView" - {
 
-    Seq(CancelConfirmMessages.English, CancelConfirmMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(CancelConfirmMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

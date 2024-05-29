@@ -108,7 +108,7 @@ class MoreInformationFormProviderSpec extends FormSpec with GuiceOneAppPerSuite 
 
   "Error Messages" - {
 
-    Seq(MoreInformationMessages.English, MoreInformationMessages.Welsh) foreach { messagesForLanguage =>
+    Seq(MoreInformationMessages.English) foreach { messagesForLanguage =>
 
       implicit val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(messagesForLanguage.lang))
 

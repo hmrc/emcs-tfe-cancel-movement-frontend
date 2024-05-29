@@ -32,9 +32,4 @@ object ChooseGiveMoreInformationMessages {
     override val errorRequired = "Select if you want to give more information about why you are cancelling this movement"
   }
 
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val heading = "Do you want to give more information about why you are cancelling this movement?"
-    override val title = titleHelper(heading)
-    override val errorRequired = "Select if you want to give more information about why you are cancelling this movement"
-  }
 }

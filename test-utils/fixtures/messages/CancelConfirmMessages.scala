@@ -39,13 +39,4 @@ object CancelConfirmMessages {
     override val radioButton2 = "No, return to the movement"
 
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val heading = "Are you sure you want to cancel this movement?"
-    override val title = titleHelper(heading)
-    override val paragraph1 = "When you cancel a movement, its electronic administrative document (eAD) and administrative reference code (ARC) are saved and marked as cancelled."
-    override val paragraph2 = "If you still want to move the goods, you will need to create a new movement."
-    override val radioButton1 = "Yes, cancel this movement"
-    override val radioButton2 = "No, return to the movement"
-  }
 }

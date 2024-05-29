@@ -34,7 +34,7 @@ class CancelReasonSummarySpec extends SpecBase with Matchers {
 
   ".row" - {
 
-    Seq(CancelReasonMessages.English, CancelReasonMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(CancelReasonMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

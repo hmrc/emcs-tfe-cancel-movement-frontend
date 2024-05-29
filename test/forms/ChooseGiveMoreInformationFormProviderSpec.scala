@@ -49,7 +49,7 @@ class ChooseGiveMoreInformationFormProviderSpec extends BooleanFieldBehaviours w
 
   "Error Messages" - {
 
-    Seq(ChooseGiveMoreInformationMessages.English, ChooseGiveMoreInformationMessages.Welsh) foreach { messagesForLanguage =>
+    Seq(ChooseGiveMoreInformationMessages.English) foreach { messagesForLanguage =>
 
       implicit val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(messagesForLanguage.lang))
 
