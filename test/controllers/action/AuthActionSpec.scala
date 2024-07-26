@@ -20,12 +20,14 @@ import base.SpecBase
 import config.{AppConfig, EnrolmentKeys}
 import controllers.actions.AuthActionImpl
 import fixtures.BaseFixtures
+import mocks.connectors.MockNavBarPartialConnector
 import org.scalatest.BeforeAndAfterAll
 import play.api.Play
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, AnyContentAsEmpty, BodyParsers, Results}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import play.twirl.api.Html
 import uk.gov.hmrc.auth.core.AffinityGroup.{Agent, Organisation}
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
@@ -35,7 +37,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
+class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll with MockNavBarPartialConnector {
 
   type AuthRetrieval = ~[~[~[Option[AffinityGroup], Enrolments], Option[String]], Option[Credentials]]
 
@@ -59,7 +61,7 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
     implicit lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
     val authConnector: AuthConnector
-    lazy val authAction = new AuthActionImpl(authConnector, appConfig, bodyParsers)
+    lazy val authAction = new AuthActionImpl(authConnector, mockNavBarPartialConnector, appConfig, bodyParsers)
 
     def onPageLoad(): Action[AnyContent] = authAction(testErn, testArc) { _ => Results.Ok }
 
@@ -199,17 +201,36 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
 
                 s"the ${EnrolmentKeys.ERN} identifier is present" - {
 
-                  "allow the User through, returning a 200 (OK)" in new Harness {
+                  "when navBar returns Some(HTML)" - {
+                    "allow the User through, returning a 200 (OK)" in new Harness {
 
-                    override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = Enrolments(Set(
-                      Enrolment(
-                        key = EnrolmentKeys.EMCS_ENROLMENT,
-                        identifiers = Seq(EnrolmentIdentifier(EnrolmentKeys.ERN, testErn)),
-                        state = EnrolmentKeys.ACTIVATED
-                      )
-                    ))))
+                      MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(Some(Html("<nav>NavBar</nav>"))))
+                      override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = Enrolments(Set(
+                        Enrolment(
+                          key = EnrolmentKeys.EMCS_ENROLMENT,
+                          identifiers = Seq(EnrolmentIdentifier(EnrolmentKeys.ERN, testErn)),
+                          state = EnrolmentKeys.ACTIVATED
+                        )
+                      ))))
 
-                    status(result) mustBe OK
+                      status(result) mustBe OK
+                    }
+                  }
+
+                  "when navBar returns None" - {
+                    "allow the User through, returning a 200 (OK)" in new Harness {
+
+                      MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(None))
+                      override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = Enrolments(Set(
+                        Enrolment(
+                          key = EnrolmentKeys.EMCS_ENROLMENT,
+                          identifiers = Seq(EnrolmentIdentifier(EnrolmentKeys.ERN, testErn)),
+                          state = EnrolmentKeys.ACTIVATED
+                        )
+                      ))))
+
+                      status(result) mustBe OK
+                    }
                   }
                 }
 
@@ -217,6 +238,7 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
 
                   "allow the User through, returning a 200 (OK)" in new Harness {
 
+                    MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(None))
                     override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = Enrolments(Set(
                       Enrolment(
                         key = EnrolmentKeys.EMCS_ENROLMENT,

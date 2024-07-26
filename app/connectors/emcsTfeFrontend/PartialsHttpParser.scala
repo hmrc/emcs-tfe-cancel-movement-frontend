@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-package models.requests
+package connectors.emcsTfeFrontend
 
-import play.api.mvc.{Request, WrappedRequest}
+import play.api.http.Status.OK
 import play.twirl.api.Html
+import uk.gov.hmrc.http.{HttpReads, HttpResponse}
+import utils.Logging
 
-case class UserRequest[A](request: Request[A],
-                          ern: String,
-                          internalId: String,
-                          credId: String,
-                          hasMultipleErns: Boolean,
-                          override val navBar: Option[Html] = None) extends WrappedRequest[A](request) with NavBarRequest
+trait PartialsHttpParser extends Logging {
+
+  implicit object PartialReads extends HttpReads[Option[Html]] {
+    override def read(method: String, url: String, response: HttpResponse): Option[Html] = {
+      response.status match {
+        case OK => Some(Html(response.body))
+        case status =>
+          logger.warn(s"[read] Unexpected status from emcs-tfe-frontend: $status")
+          None
+      }
+    }
+  }
+}
