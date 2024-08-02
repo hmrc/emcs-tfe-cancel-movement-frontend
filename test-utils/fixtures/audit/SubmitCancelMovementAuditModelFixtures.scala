@@ -33,7 +33,7 @@ trait SubmitCancelMovementAuditModelFixtures extends BaseFixtures
     SubmitCancelMovementAuditModel(
       submissionRequest = model,
       submissionResponse = Right(successResponseChRIS)
-    )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false), testArc, getMovementResponseModel), emptyUserAnswers, testMinTraderKnownFacts))
+    )(DataRequest(MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false), testArc, getMovementResponseModel), emptyUserAnswers, Some(testMinTraderKnownFacts)))
 
   def submitCancelMovementAuditSuccessfulJSON(model: SubmitCancelMovementModel = submitCancelMovementModel): JsValue = jsonObjNoNulls(
     "credentialId" -> testCredId,
@@ -61,7 +61,7 @@ trait SubmitCancelMovementAuditModelFixtures extends BaseFixtures
         getMovementResponseModel
       ),
       emptyUserAnswers,
-      testMinTraderKnownFacts
+      Some(testMinTraderKnownFacts)
     ))
 
   def submitCancelMovementAuditFailedJSON(model: SubmitCancelMovementModel = submitCancelMovementModel): JsValue = jsonObjNoNulls(
