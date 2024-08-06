@@ -20,7 +20,7 @@ import models.common.TraderModel
 import models.response.emcsTfe.GetMovementResponse
 import models.{CancelReason, DestinationType, UserAnswers}
 import pages.{CancelReasonPage, MoreInformationPage}
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json.{Json, OWrites}
 import utils.{JsonOptionFormatter, ModelConstructorHelpers}
 
 case class SubmitCancelMovementModel(arc: String,
@@ -44,7 +44,7 @@ object SubmitCancelMovementModel extends JsonOptionFormatter with ModelConstruct
       memberStateCode = movementDetails.memberStateCode
     )
 
-  implicit val fmt: Writes[SubmitCancelMovementModel] = Writes { model =>
+  implicit val fmt: OWrites[SubmitCancelMovementModel] = OWrites { model =>
     jsonObjNoNulls(
       "exciseMovement" -> Json.obj(
         "arc" -> model.arc,
