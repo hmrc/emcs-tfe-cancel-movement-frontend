@@ -17,9 +17,10 @@
 package mocks
 
 import config.AppConfig
-import org.scalamock.handlers.CallHandler
-import org.scalatest.matchers.should.Matchers
+import featureswitch.core.models.FeatureSwitch
+import org.scalamock.handlers.{CallHandler, CallHandler0, CallHandler1}
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.matchers.should.Matchers
 
 trait MockAppConfig extends MockFactory {
 
@@ -28,6 +29,11 @@ trait MockAppConfig extends MockFactory {
   object MockAppConfig extends Matchers {
     def emcsTfeHomeUrl(ern: Option[String]): CallHandler[String] = {
       (mockAppConfig.emcsTfeHomeUrl(_:Option[String])).expects(*).returns("http://localhost:8310/emcs-tfe")
+    }
+    def nrsBrokerBaseUrl: CallHandler0[String] = (mockAppConfig.nrsBrokerBaseUrl _).expects()
+    def getFeatureSwitchValue(feature: FeatureSwitch): CallHandler1[String, Boolean] = {
+      val featureSwitchName = feature.configName
+      (mockAppConfig.getFeatureSwitchValue(_: String)).expects(featureSwitchName)
     }
   }
 

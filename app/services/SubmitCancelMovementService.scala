@@ -16,12 +16,15 @@
 
 package services
 
+import config.AppConfig
 import connectors.emcsTfe.SubmitCancelMovementConnector
+import featureswitch.core.config.{EnableNRS, FeatureSwitching}
 import models.audit.SubmitCancelMovementAuditModel
 import models.submitCancelMovement.SubmitCancelMovementModel
 import models.requests.DataRequest
 import models.response.emcsTfe.SubmitCancelMovementResponse
 import models.{ErrorResponse, SubmitCancelMovementException}
+import services.nrs.NRSBrokerService
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
 
@@ -30,18 +33,26 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class SubmitCancelMovementService @Inject()(submitShortageOrExcessConnector: SubmitCancelMovementConnector,
-                                            auditingService: AuditingService)
-                                           (implicit ec: ExecutionContext) extends Logging {
+                                            nrsBrokerService: NRSBrokerService,
+                                            auditingService: AuditingService,
+                                            override val config: AppConfig)
+                                           (implicit ec: ExecutionContext) extends Logging with FeatureSwitching {
 
   def submit(ern: String, arc: String)(implicit hc: HeaderCarrier, dataRequest: DataRequest[_]): Future[SubmitCancelMovementResponse] = {
-
     val submissionRequest = SubmitCancelMovementModel(dataRequest.movementDetails)(dataRequest.userAnswers)
+    if(isEnabled(EnableNRS)) {
+      nrsBrokerService.submitPayload(submissionRequest, ern).flatMap(_ => handleSubmission(ern, arc, submissionRequest))
+    } else {
+      handleSubmission(ern, arc, submissionRequest)
+    }
+  }
 
+  private def handleSubmission(ern: String, arc: String, submissionRequest: SubmitCancelMovementModel)
+                      (implicit hc: HeaderCarrier, dataRequest: DataRequest[_]): Future[SubmitCancelMovementResponse] =
     submitShortageOrExcessConnector.submit(ern, submissionRequest).map {
       withAuditEvent(submissionRequest, _)
         .getOrElse(throw SubmitCancelMovementException(s"Failed to submit Cancel Movement to emcs-tfe for ern: '$ern' & arc: '$arc'"))
     }
-  }
 
   private def withAuditEvent(submissionRequest: SubmitCancelMovementModel,
                              submissionResponse: Either[ErrorResponse, SubmitCancelMovementResponse])
