@@ -85,7 +85,7 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
     configuration.get[String]("urls.emcsTfeMovementDetails").replace(":ern", ern).replace(":arc", arc)
 
   def emcsMovementsUrl(ern: String): String =
-    configuration.get[String]("urls.emcsTfeMovementsIn") + s"/$ern"
+    configuration.get[String]("urls.emcsTfeMovementsIn").replace(":ern", ern)
 
   def betaBannerFeedbackUrl(implicit request: RequestHeader): String =
     s"$contactHost/contact/beta-feedback?service=$deskproName&backUrl=${SafeRedirectUrl(host + request.uri).encodedUrl}"
