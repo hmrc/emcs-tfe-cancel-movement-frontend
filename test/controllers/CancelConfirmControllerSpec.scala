@@ -173,7 +173,7 @@ class CancelConfirmControllerSpec extends SpecBase
         }
       }
 
-      "must redirect to at a glance page when user selects no" in new Fixture() {
+      "must redirect to account home page when user selects no" in new Fixture() {
 
         running(application) {
 
