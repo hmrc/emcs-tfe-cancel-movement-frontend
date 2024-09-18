@@ -96,13 +96,6 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
 
   def userAllowListBaseUrl: String = s"$userAllowListService/user-allow-list"
 
-  private def traderKnownFactsReferenceDataService: String =
-    if (isEnabled(StubGetTraderKnownFacts)) {
-      servicesConfig.baseUrl("emcs-tfe-reference-data-stub")
-    }
-    else {
-      servicesConfig.baseUrl("emcs-tfe-reference-data")
-    }
-
-  def traderKnownFactsReferenceDataBaseUrl: String = s"$traderKnownFactsReferenceDataService/emcs-tfe-reference-data"
+  def traderKnownFactsBaseUrl: String =
+    emcsTfeService + "/emcs-tfe/trader-known-facts"
 }

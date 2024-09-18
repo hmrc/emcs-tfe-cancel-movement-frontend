@@ -30,7 +30,7 @@ import uk.gov.hmrc.auth.core.authorise.EmptyPredicate
 import uk.gov.hmrc.http.{Authorization, HeaderCarrier}
 import utils.TimeMachine
 
-import java.time.{Instant, LocalDateTime}
+import java.time.Instant
 import scala.concurrent.{ExecutionContext, Future}
 
 class NRSBrokerServiceSpec extends SpecBase
