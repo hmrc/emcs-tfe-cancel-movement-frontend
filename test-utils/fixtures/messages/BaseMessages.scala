@@ -38,7 +38,7 @@ sealed trait BaseMessages { _: i18n =>
 }
 
 trait BaseEnglish extends BaseMessages with EN {
-  override def titleHelper(heading: String) = s"$heading - Excise Movement and Control System - GOV.UK"
+  override def titleHelper(heading: String) = s"$heading - Create and manage excise goods movements with EMCS - GOV.UK"
   override val opensInNewTab: String = "(opens in new tab)"
   override def arcSubheading(arc: String): String = s"Cancellation for $arc"
   override val continue = "Continue"
