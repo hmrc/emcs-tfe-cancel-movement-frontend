@@ -18,8 +18,6 @@ package config
 
 import featureswitch.core.config._
 import play.api.Configuration
-import play.api.mvc.RequestHeader
-import uk.gov.hmrc.play.bootstrap.binders.SafeRedirectUrl
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
@@ -47,9 +45,7 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
 
   private lazy val feedbackFrontendHost: String = configuration.get[String]("feedback-frontend.host")
 
-  lazy val feedbackFrontendSurveyUrl: String = s"$feedbackFrontendHost/feedback/$deskproName/beta"
-
-  private lazy val contactHost = configuration.get[String]("contact-frontend.host")
+  lazy val feedbackFrontendSurveyUrl: String = s"$feedbackFrontendHost/feedback/$deskproName"
 
   lazy val loginUrl: String = configuration.get[String]("urls.login")
 
@@ -86,9 +82,6 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
 
   def emcsMovementsUrl(ern: String): String =
     configuration.get[String]("urls.emcsTfeMovementsIn").replace(":ern", ern)
-
-  def betaBannerFeedbackUrl(implicit request: RequestHeader): String =
-    s"$contactHost/contact/beta-feedback?service=$deskproName&backUrl=${SafeRedirectUrl(host + request.uri).encodedUrl}"
 
   def internalAuthToken: String = configuration.get[String]("internal-auth.token")
 
