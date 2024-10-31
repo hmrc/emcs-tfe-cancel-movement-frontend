@@ -40,14 +40,14 @@ class UserAllowListActionImpl @Inject()(userAllowListConnector: UserAllowListCon
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     if(isEnabled(UserAllowList)) {
-      userAllowListConnector.check(CheckUserAllowListRequest(request.ern)) map {
-        case Right(true) => Right(request)
+      userAllowListConnector.check(CheckUserAllowListRequest(request.ern)) flatMap {
+        case Right(true) => Future.successful(Right(request))
         case Right(false) =>
           logger.info(s"[refine] User with ern: '${request.ern}' was not on the allow-list")
-          Left(Redirect(controllers.error.routes.ErrorController.notOnPrivateBeta()))
+          Future.successful(Left(Redirect(controllers.error.routes.ErrorController.notOnPrivateBeta())))
         case Left(_) =>
           logger.warn(s"[refine] Unable to check if User is on allow-list as unexpected error returned from user-allow-list")
-          Left(InternalServerError(errorHandler.internalServerErrorTemplate(request)))
+          errorHandler.internalServerErrorTemplate(request).map(ise => Left(InternalServerError(ise)))
       }
     } else {
       Future.successful(Right(request))
