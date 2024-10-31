@@ -144,7 +144,7 @@ class CancelConfirmControllerSpec extends SpecBase
                 val result = route(application, request).value
 
                 status(result) mustBe INTERNAL_SERVER_ERROR
-                contentAsString(result) mustBe errorHandler.internalServerErrorTemplate(request).toString()
+                contentAsString(result) mustBe await(errorHandler.internalServerErrorTemplate(request)).toString()
               }
             }
           }
@@ -167,7 +167,7 @@ class CancelConfirmControllerSpec extends SpecBase
               val result = route(application, request).value
 
               status(result) mustBe BAD_REQUEST
-              contentAsString(result) mustBe errorHandler.badRequestTemplate(request).toString()
+              contentAsString(result) mustBe await(errorHandler.badRequestTemplate(request)).toString()
             }
           }
         }
