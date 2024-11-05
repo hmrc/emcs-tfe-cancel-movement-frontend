@@ -71,11 +71,11 @@ class CancelConfirmController @Inject()(override val messagesApi: MessagesApi,
               save(ConfirmationPage, ConfirmationDetails(response.receipt)).map { answers =>
                 Redirect(navigator.nextPage(CancelConfirmPage, NormalMode, answers))
               }
-            } recover {
+            } recoverWith {
               case _: MissingMandatoryPage =>
-                BadRequest(errorHandler.badRequestTemplate)
+                errorHandler.badRequestTemplate.map(BadRequest(_))
               case _ =>
-                InternalServerError(errorHandler.internalServerErrorTemplate)
+                errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
             }
           case false =>
             Future.successful(Redirect(appConfig.emcsTfeHomeUrl(Some(ern))))
