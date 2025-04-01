@@ -6,8 +6,8 @@ object AppDependencies {
 
   val playSuffix = "-play-30"
   val scalatestVersion = "3.2.19"
-  val hmrcBootstrapVersion = "9.5.0"
-  val hmrcMongoVersion = "2.3.0"
+  val hmrcBootstrapVersion = "9.11.0"
+  val hmrcMongoVersion = "2.6.0"
 
   val compile = Seq(
     play.sbt.PlayImport.ws,
