@@ -21,13 +21,14 @@ import models.response.emcsTfe.SubmitCancelMovementResponse
 import models.submitCancelMovement.SubmitCancelMovementModel
 import models.{ErrorResponse, UnexpectedDownstreamResponseError}
 import play.api.libs.json.Reads
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SubmitCancelMovementConnector @Inject()(val http: HttpClient,
+class SubmitCancelMovementConnector @Inject()(val http: HttpClientV2,
                                               config: AppConfig) extends EmcsTfeHttpParser[SubmitCancelMovementResponse] {
 
   override implicit val reads: Reads[SubmitCancelMovementResponse] = SubmitCancelMovementResponse.reads
@@ -36,7 +37,7 @@ class SubmitCancelMovementConnector @Inject()(val http: HttpClient,
 
   def submit(ern: String, submitCancelMovementModel: SubmitCancelMovementModel)
             (implicit headerCarrier: HeaderCarrier, executionContext: ExecutionContext): Future[Either[ErrorResponse, SubmitCancelMovementResponse]] = {
-    post(s"$baseUrl/cancel-movement/$ern/${submitCancelMovementModel.arc}", submitCancelMovementModel)
+    post(url"$baseUrl/cancel-movement/$ern/${submitCancelMovementModel.arc}", submitCancelMovementModel)
 
   }.recover {
     ex =>

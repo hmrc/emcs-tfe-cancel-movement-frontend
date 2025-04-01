@@ -23,7 +23,9 @@ import models.UnexpectedDownstreamResponseError
 import org.scalatest.BeforeAndAfterAll
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.HeaderCarrier
+import play.api.libs.json.Json
+import play.api.test.Helpers._
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -52,8 +54,8 @@ class NRSBrokerConnectorSpec extends SpecBase
       "when downstream call is successful" in new Test {
 
         MockHttpClient.put(
-          url = s"$fakeUrl/trader/$testErn/nrs/submission",
-          body = nrsPayloadModel
+          url = url"$fakeUrl/trader/$testErn/nrs/submission",
+          body = Json.toJson(nrsPayloadModel)
         ).returns(Future.successful(Right(nrsBrokerResponseModel)))
 
         await(connector.submitPayload(nrsPayloadModel, testErn)) mustBe Right(nrsBrokerResponseModel)
@@ -65,8 +67,8 @@ class NRSBrokerConnectorSpec extends SpecBase
       "when downstream call fails" in new Test {
 
         MockHttpClient.put(
-          url = s"$fakeUrl/trader/$testErn/nrs/submission",
-          body = nrsPayloadModel
+          url = url"$fakeUrl/trader/$testErn/nrs/submission",
+          body = Json.toJson(nrsPayloadModel)
         ).returns(Future.successful(Left(UnexpectedDownstreamResponseError)))
 
         await(connector.submitPayload(nrsPayloadModel, testErn)) mustBe Left(UnexpectedDownstreamResponseError)
