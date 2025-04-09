@@ -22,7 +22,6 @@ import mocks.{MockAppConfig, MockHttpClient}
 import models.UnexpectedDownstreamResponseError
 import org.scalatest.BeforeAndAfterAll
 import play.api.http.{HeaderNames, MimeTypes, Status}
-import play.api.test.Helpers._
 import play.api.libs.json.Json
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}

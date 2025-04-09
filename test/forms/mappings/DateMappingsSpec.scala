@@ -16,12 +16,9 @@
 
 package forms.mappings
 
-import generators.Generators
-import org.scalacheck.Gen
 import org.scalatest.OptionValues
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
-import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.data.{Form, FormError}
 
 import java.time.LocalDate
@@ -298,4 +295,3 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with OptionValues
     filledForm("value.year").value.value mustEqual date.getYear.toString
   }
 }
-

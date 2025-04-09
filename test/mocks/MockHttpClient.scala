@@ -23,9 +23,10 @@ import play.api.libs.json.JsValue
 import play.api.libs.ws.BodyWritable
 import uk.gov.hmrc.http.client.{HttpClientV2, RequestBuilder}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads}
+import izumi.reflect.Tag
 
 import java.net.URL
-import scala.concurrent.{ExecutionContext, Future}s
+import scala.concurrent.{ExecutionContext, Future}
 
 trait MockHttpClient extends MockFactory {
 
