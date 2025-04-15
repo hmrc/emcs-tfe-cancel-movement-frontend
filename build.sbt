@@ -32,9 +32,10 @@ lazy val root = (project in file("."))
     ),
     PlayKeys.playDefaultPort := 8318,
     scalacOptions ++= Seq(
+      "-feature",
       "-rootdir",
       baseDirectory.value.getCanonicalPath,
-      "-Wconf:cat=deprecation:ws,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
+      "-Wconf:cat=deprecation:w,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
     ),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
@@ -58,12 +59,6 @@ lazy val root = (project in file("."))
     uglify / includeFilter  := GlobFilter("application.js")
   )
   .settings(CodeCoverageSettings.settings: _*)
-  .settings(
-    scalacOptions ++= Seq(
-      "-deprecation",
-      "-feature",
-    )
-  )
 
 lazy val testSettings: Seq[Def.Setting[_]] = Seq(
   fork := true,
