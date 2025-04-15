@@ -19,23 +19,25 @@ package connectors.userAllowList
 import config.AppConfig
 import models.requests.CheckUserAllowListRequest
 import models.{ErrorResponse, UnexpectedDownstreamResponseError}
-import uk.gov.hmrc.http.{Authorization, HeaderCarrier, HttpClient}
+import play.api.libs.json.Json
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{Authorization, HeaderCarrier, StringContextOps}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class UserAllowListConnector @Inject()(http: HttpClient,
+class UserAllowListConnector @Inject()(http: HttpClientV2,
                                        config: AppConfig) extends UserAllowListHttpParser {
 
   def check(checkRequest: CheckUserAllowListRequest)
            (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Either[ErrorResponse, Boolean]] = {
     val headerCarrierWithInternalAuthToken = hc.copy(authorization = Some(Authorization(config.internalAuthToken)))
 
-    http.POST[CheckUserAllowListRequest, Either[ErrorResponse, Boolean]](
-      url = config.userAllowListBaseUrl + "/emcs-tfe/cancelMovement/check",
-      body = checkRequest
-    )(CheckUserAllowListRequest.writes, UserAllowListReads, headerCarrierWithInternalAuthToken, ec)
+    http
+      .post(url"${config.userAllowListBaseUrl}/emcs-tfe/cancelMovement/check")(using headerCarrierWithInternalAuthToken)
+      .withBody(Json.toJson(checkRequest))
+      .execute[Either[ErrorResponse, Boolean]](UserAllowListReads,ec)
   }.recover {
     error =>
       logger.warn(s"[check] Unexpected error from user-allow-list: ${error.getClass} ${error.getMessage}")

@@ -2,7 +2,7 @@ import play.sbt.routes.RoutesKeys
 
 lazy val appName: String = "emcs-tfe-cancel-movement-frontend"
 
-ThisBuild / scalaVersion := "2.13.12"
+ThisBuild / scalaVersion := "2.13.16"
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
@@ -35,7 +35,7 @@ lazy val root = (project in file("."))
       "-feature",
       "-rootdir",
       baseDirectory.value.getCanonicalPath,
-      "-Wconf:cat=deprecation:ws,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
+      "-Wconf:cat=deprecation:w,cat=feature:ws,cat=optimizer:ws,src=target/.*:s"
     ),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
