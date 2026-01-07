@@ -1,4 +1,4 @@
-import sbt._
+import sbt.*
 
 object AppDependencies {
 
@@ -17,7 +17,7 @@ object AppDependencies {
     "com.google.inject"       %   "guice"                             % "5.1.0"
   )
 
-  val test = Seq(
+  val test: Seq[ModuleID] = Seq(
     "uk.gov.hmrc"             %% s"bootstrap-test$playSuffix"         % hmrcBootstrapVersion,
     "org.scalatest"           %%  "scalatest"                         % scalatestVersion,
     "org.scalatestplus"       %%  "scalacheck-1-18"                   % s"$scalatestVersion.0",
