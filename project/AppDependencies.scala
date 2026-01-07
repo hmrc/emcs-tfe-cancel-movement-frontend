@@ -1,4 +1,4 @@
-import sbt._
+import sbt.*
 
 object AppDependencies {
 
@@ -11,13 +11,13 @@ object AppDependencies {
 
   val compile = Seq(
     play.sbt.PlayImport.ws,
-    "uk.gov.hmrc"             %% s"play-frontend-hmrc$playSuffix"     % "11.13.0",
+    "uk.gov.hmrc"             %% s"play-frontend-hmrc$playSuffix"     % "12.3.0",
     "uk.gov.hmrc"             %% s"bootstrap-frontend$playSuffix"     %  hmrcBootstrapVersion,
     "uk.gov.hmrc.mongo"       %% s"hmrc-mongo$playSuffix"             %  hmrcMongoVersion,
     "com.google.inject"       %   "guice"                             % "5.1.0"
   )
 
-  val test = Seq(
+  val test: Seq[ModuleID] = Seq(
     "uk.gov.hmrc"             %% s"bootstrap-test$playSuffix"         % hmrcBootstrapVersion,
     "org.scalatest"           %%  "scalatest"                         % scalatestVersion,
     "org.scalatestplus"       %%  "scalacheck-1-18"                   % s"$scalatestVersion.0",
