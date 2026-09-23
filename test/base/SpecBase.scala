@@ -35,6 +35,7 @@ import play.api.test.FakeRequest
 import scala.concurrent.Future
 import play.api.test.Helpers.{cookies, defaultAwaitTimeout}
 import play.twirl.api.Html
+import uk.gov.hmrc.govukfrontend.views.viewmodels.servicenavigation.ServiceNavigationItem
 
 trait SpecBase
   extends AnyFreeSpec
@@ -70,15 +71,15 @@ trait SpecBase
         bind[MovementAction].toInstance(new FakeMovementAction(getMovementResponseModel))
       )
 
-  def userRequest[A](request: Request[A], navBar: Option[Html] = None): UserRequest[A] =
-    UserRequest(request, testErn, testInternalId, testCredId, false, navBar)
+  def userRequest[A](request: Request[A], navBarItems: Option[Seq[ServiceNavigationItem]] = None): UserRequest[A] =
+    UserRequest(request, testErn, testInternalId, testCredId, false, navBarItems)
 
-  def movementRequest[A](request: Request[A], navBar: Option[Html] = None): MovementRequest[A] =
-    MovementRequest(userRequest(request, navBar), testArc, getMovementResponseModel)
+  def movementRequest[A](request: Request[A], navBarItems: Option[Seq[ServiceNavigationItem]] = None): MovementRequest[A] =
+    MovementRequest(userRequest(request, navBarItems), testArc, getMovementResponseModel)
 
   def dataRequest[A](request: Request[A],
                      userAnswers: UserAnswers = emptyUserAnswers,
                      traderKnownFacts: Option[TraderKnownFacts] = Some(testMinTraderKnownFacts),
-                     navBar: Option[Html] = None): DataRequest[A] =
-    DataRequest(movementRequest(request, navBar), userAnswers, traderKnownFacts)
+                     navBarItems: Option[Seq[ServiceNavigationItem]] = None): DataRequest[A] =
+    DataRequest(movementRequest(request, navBarItems), userAnswers, traderKnownFacts)
 }
